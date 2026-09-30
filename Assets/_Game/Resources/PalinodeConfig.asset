@@ -1,0 +1,688 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3279c5b958fa7884c9c588bb0baeaec6, type: 3}
+  m_Name: PalinodeConfig
+  m_EditorClassIdentifier: Palinode.Runtime::Palinode.Core.GameConfig
+  prologueJson: {fileID: 4900000, guid: 2fc38d199d36f1841a418afb35d62245, type: 3}
+  localizationCsv: {fileID: 4900000, guid: 51d4a5be27228ab48b73c0441ada13fa, type: 3}
+  sprites:
+  - name: F1_archivist_a
+    sprite: {fileID: 21300000, guid: 07c53e6cf1bff2440a037dd33c5d6ff6, type: 3}
+  - name: F1_archivist_b
+    sprite: {fileID: 21300000, guid: 133d947bc2b11db4a8b7c0904f1c7016, type: 3}
+  - name: F1_belt
+    sprite: {fileID: 21300000, guid: 68347198e7a1d6a48b64f904b0b54c6c, type: 3}
+  - name: F1_belt_end
+    sprite: {fileID: 21300000, guid: 895e5b9c5ee6f554985e4a695ff08798, type: 3}
+  - name: F1_binder_a
+    sprite: {fileID: 21300000, guid: f4ee68dd97593a844953d0158fccd1f4, type: 3}
+  - name: F1_binder_b
+    sprite: {fileID: 21300000, guid: 6ddd463dc50f51147b648b2805416b7b, type: 3}
+  - name: F1_blot_idle
+    sprite: {fileID: 21300000, guid: 8a3c61a291cfa3644aba543967e49eae, type: 3}
+  - name: F1_blot_jump
+    sprite: {fileID: 21300000, guid: b6223022e0a5aab40994fd469516731f, type: 3}
+  - name: F1_blot_small
+    sprite: {fileID: 21300000, guid: 2b36404795457aa4782bfa2b4c9f07d6, type: 3}
+  - name: F1_blot_squash
+    sprite: {fileID: 21300000, guid: d7664cd7a16f3f242adc19e16f645c4a, type: 3}
+  - name: F1_boss_arena
+    sprite: {fileID: 21300000, guid: dd3a6df624f63e64087ed42bd3c22699, type: 3}
+  - name: F1_boss_body
+    sprite: {fileID: 21300000, guid: 439e7570d3595744b9891bd9d7f3c81b, type: 3}
+  - name: F1_boss_flywheel
+    sprite: {fileID: 21300000, guid: bb0f62377a8c40143bc1960b45d9a02c, type: 3}
+  - name: F1_boss_newspaper
+    sprite: {fileID: 21300000, guid: 493f8965191208842800ef2dd08d2cc5, type: 3}
+  - name: F1_boss_platen_closed
+    sprite: {fileID: 21300000, guid: 95c32d50b7d71154db9b3f4b01e97866, type: 3}
+  - name: F1_boss_platen_open
+    sprite: {fileID: 21300000, guid: 69dbd4d88fdcc3b4e9347d9957e2cdcb, type: 3}
+  - name: F1_boss_roller
+    sprite: {fileID: 21300000, guid: 394ff732fa77a9c4492c8bfee10f4ba9, type: 3}
+  - name: F1_bossbar
+    sprite: {fileID: 21300000, guid: 0805013bcae47cd49a8bf8d274735215, type: 3}
+  - name: F1_bug_a
+    sprite: {fileID: 21300000, guid: b6e1ef1b8cb6846499680fcd2ec10cb7, type: 3}
+  - name: F1_bug_b
+    sprite: {fileID: 21300000, guid: 4437d5740a235024eaf857ad71959a48, type: 3}
+  - name: F1_comp_down
+    sprite: {fileID: 21300000, guid: 5292c874c8075854eb3560625b0fd579, type: 3}
+  - name: F1_comp_right
+    sprite: {fileID: 21300000, guid: 4308312343418fa4db5b0a79eea1d21a, type: 3}
+  - name: F1_comp_windup_down
+    sprite: {fileID: 21300000, guid: e7b5b233d69785144812d7ed406c9a5f, type: 3}
+  - name: F1_comp_windup_right
+    sprite: {fileID: 21300000, guid: 4ec58ee2047e61145ab9e8b465a8cabc, type: 3}
+  - name: F1_corridor
+    sprite: {fileID: 21300000, guid: 34e670b460d99a64aa258ff413980778, type: 3}
+  - name: F1_desk
+    sprite: {fileID: 21300000, guid: 3d04bc5b68b0a3346b5067be31b1768f, type: 3}
+  - name: F1_door_boss_closed
+    sprite: {fileID: 21300000, guid: bec5099e4c2b69b439f0cd0e44202078, type: 3}
+  - name: F1_door_boss_open
+    sprite: {fileID: 21300000, guid: ca9bb1fe8b707674e8c09bd07b35cfba, type: 3}
+  - name: F1_door_closed
+    sprite: {fileID: 21300000, guid: 74b062a6943cb4e4fb86cce6464242db, type: 3}
+  - name: F1_door_open
+    sprite: {fileID: 21300000, guid: f938b1c12f601f64bb4f31e490697ff5, type: 3}
+  - name: F1_drawing_1
+    sprite: {fileID: 21300000, guid: 7f1a40cf3ca2e114bb03fa8ce46e29d5, type: 3}
+  - name: F1_drawing_2
+    sprite: {fileID: 21300000, guid: afee93947d7ad4544a8709f3fa5e0fd6, type: 3}
+  - name: F1_drawing_3
+    sprite: {fileID: 21300000, guid: d3be313eda004184d94f9790112f1a7b, type: 3}
+  - name: F1_drying
+    sprite: {fileID: 21300000, guid: ae747e31254ffe140903aba3a4f4b1a6, type: 3}
+  - name: F1_elias_fallen
+    sprite: {fileID: 21300000, guid: 76d3628cb9dffbf49b4dc1959e945879, type: 3}
+  - name: F1_elias_pickup
+    sprite: {fileID: 21300000, guid: e52ea05e9630eeb4089dc0b298bbc274, type: 3}
+  - name: F1_headlights_full
+    sprite: {fileID: 21300000, guid: b20efe35780d91144a61fd924f349765, type: 3}
+  - name: F1_headlights_ghost
+    sprite: {fileID: 21300000, guid: 6fdd8f661297be44b97e5ed83a98426f, type: 3}
+  - name: F1_hp_empty
+    sprite: {fileID: 21300000, guid: 99d204c7c03e7f04487d2fe531fed361, type: 3}
+  - name: F1_hp_full
+    sprite: {fileID: 21300000, guid: 6595afeed019bb84a941313e1e68e0e3, type: 3}
+  - name: F1_hp_half
+    sprite: {fileID: 21300000, guid: dee97ebd10bce28419b02dddd630b0d6, type: 3}
+  - name: F1_icon_gear
+    sprite: {fileID: 21300000, guid: b4bdf9b5ab6476f41a45bb0dbbe3a85f, type: 3}
+  - name: F1_icon_lamp
+    sprite: {fileID: 21300000, guid: 5e656fe3fe3411048bbdd917f721859c, type: 3}
+  - name: F1_icon_musicbox
+    sprite: {fileID: 21300000, guid: 6d742387c06423845af676476f7742b7, type: 3}
+  - name: F1_icon_needle
+    sprite: {fileID: 21300000, guid: a93df74705f187e438490d286254f432, type: 3}
+  - name: F1_icon_star
+    sprite: {fileID: 21300000, guid: cd84f888fdbe1e84c92841e2f4ee166b, type: 3}
+  - name: F1_icon_trapdoor
+    sprite: {fileID: 21300000, guid: 659b61a8d62226541b7dbb2aa497c256, type: 3}
+  - name: F1_ink_drop
+    sprite: {fileID: 21300000, guid: 67f482bec6517e543b554a009f37b02c, type: 3}
+  - name: F1_item_blotter
+    sprite: {fileID: 21300000, guid: 792f66403918cbe499af6c27748a6806, type: 3}
+  - name: F1_item_carbon
+    sprite: {fileID: 21300000, guid: f6069e247f38d4f48949bb075fd1df2d, type: 3}
+  - name: F1_item_coffee
+    sprite: {fileID: 21300000, guid: 6439ee0b1307535469ea212d7a53615c, type: 3}
+  - name: F1_item_energy
+    sprite: {fileID: 21300000, guid: b37b9d5a86c64a24aa225898dff0b87a, type: 3}
+  - name: F1_item_magnifier
+    sprite: {fileID: 21300000, guid: 3421c3728b99ab1419d8cbd2d53ddf53, type: 3}
+  - name: F1_item_paperclips
+    sprite: {fileID: 21300000, guid: 1de879f64f0753947bf35196a67a1393, type: 3}
+  - name: F1_item_stamp
+    sprite: {fileID: 21300000, guid: ebaea2b915d3ae64e97e15bcc457b2c6, type: 3}
+  - name: F1_item_typewriter
+    sprite: {fileID: 21300000, guid: f7d2b46fd81c48346bc6fb14b0b54756, type: 3}
+  - name: F1_letter_A
+    sprite: {fileID: 21300000, guid: d1bf0451e04ced14e9ac8613a4e703b5, type: 3}
+  - name: F1_letter_E
+    sprite: {fileID: 21300000, guid: bef3bc762fe7f6f46939d315104443c4, type: 3}
+  - name: F1_letter_I
+    sprite: {fileID: 21300000, guid: fce4f9b62c0de44449c4f96bbb8ce610, type: 3}
+  - name: F1_letter_L
+    sprite: {fileID: 21300000, guid: 7f276c790c466de4fb9f999883f9640f, type: 3}
+  - name: F1_letter_M
+    sprite: {fileID: 21300000, guid: 6bb48141a0ac5a9449b9f4533e65d4fb, type: 3}
+  - name: F1_letter_N
+    sprite: {fileID: 21300000, guid: 1d679e4ffa5783e45a15f62421b533dc, type: 3}
+  - name: F1_letter_O
+    sprite: {fileID: 21300000, guid: b51ae26d47ad0934db9f671e67f77acf, type: 3}
+  - name: F1_letter_R
+    sprite: {fileID: 21300000, guid: 9604a3fb9d650a64b85aa8d128781bf3, type: 3}
+  - name: F1_letter_S
+    sprite: {fileID: 21300000, guid: c169d6e91670a444e94a8117b2d86093, type: 3}
+  - name: F1_letter_T
+    sprite: {fileID: 21300000, guid: d8be44f48b7c6a34d9b9d56c7669e9a2, type: 3}
+  - name: F1_map_paper
+    sprite: {fileID: 21300000, guid: 95842dd10a7581247bd3f0177dc5b181, type: 3}
+  - name: F1_pedestal
+    sprite: {fileID: 21300000, guid: caed35b3bb48c3d49bc50eff87d0d188, type: 3}
+  - name: F1_pickup_drop
+    sprite: {fileID: 21300000, guid: 9e39a4fdeac66f74f9b4035431da45f2, type: 3}
+  - name: F1_pickup_inkwell
+    sprite: {fileID: 21300000, guid: 2820ee73dcd17aa4e9c898ab12f98021, type: 3}
+  - name: F1_pickup_page
+    sprite: {fileID: 21300000, guid: cf97e377eb066504cbe540d9860d1b70, type: 3}
+  - name: F1_pickup_sheet
+    sprite: {fileID: 21300000, guid: c3837e40b2f77914dbbbbc34354cd486, type: 3}
+  - name: F1_press
+    sprite: {fileID: 21300000, guid: d6ee7a9fe0dce9248adf7474e6c833f4, type: 3}
+  - name: F1_proof_desk
+    sprite: {fileID: 21300000, guid: 4dc3d814dcfdd084a9f9eb4bcb41eb39, type: 3}
+  - name: F1_puddle
+    sprite: {fileID: 21300000, guid: 62ff814c781e64445b5deb7244154edc, type: 3}
+  - name: F1_room_a
+    sprite: {fileID: 21300000, guid: b6fe4300e8f926b4eb83c88c22d48fc3, type: 3}
+  - name: F1_room_b
+    sprite: {fileID: 21300000, guid: 208bf98ab1a4fe94ab2344d251926444, type: 3}
+  - name: F1_room_big
+    sprite: {fileID: 21300000, guid: d75e0cf0414870242be6ff2b6a290174, type: 3}
+  - name: F1_room_corrector
+    sprite: {fileID: 21300000, guid: 54de2db1dd6e53149afa96e353fd0a55, type: 3}
+  - name: F1_room_memory
+    sprite: {fileID: 21300000, guid: ef91f76d1473ebc42b40d0d1f7bd21d2, type: 3}
+  - name: F1_room_secret
+    sprite: {fileID: 21300000, guid: 1c90613919cefae47a89e9b9f161e4d3, type: 3}
+  - name: F1_room_shop
+    sprite: {fileID: 21300000, guid: a429b19e755907644a13eeffa2c793bf, type: 3}
+  - name: F1_sheet_proj
+    sprite: {fileID: 21300000, guid: 583d59650f98cc045ae8ebf2594bb714, type: 3}
+  - name: F1_shoot_down
+    sprite: {fileID: 21300000, guid: ac113045095131242b24f79c7cc7ef1d, type: 3}
+  - name: F1_shoot_left
+    sprite: {fileID: 21300000, guid: 44e724b0b8dd0cd44bdf93df082b5b8e, type: 3}
+  - name: F1_shoot_right
+    sprite: {fileID: 21300000, guid: fc1eaef920a782f4a98f78e6643fd418, type: 3}
+  - name: F1_shoot_up
+    sprite: {fileID: 21300000, guid: 40032eca63a3b7742a99d027985322ac, type: 3}
+  - name: F1_splat_1
+    sprite: {fileID: 21300000, guid: 599aaa5787bab0a41921e60d150c1709, type: 3}
+  - name: F1_splat_2
+    sprite: {fileID: 21300000, guid: ea47a19e4c959154b8bf09065cd09998, type: 3}
+  - name: F1_splat_3
+    sprite: {fileID: 21300000, guid: 8df183b5d05b91f498ab2f663c189cd4, type: 3}
+  - name: F1_splat_4
+    sprite: {fileID: 21300000, guid: cd98ba4016da66e4d94e1c8c29fa5803, type: 3}
+  - name: F1_spray
+    sprite: {fileID: 21300000, guid: 72cf7c55cf0e60f4888dcd54b62b7e06, type: 3}
+  - name: F1_stack_1
+    sprite: {fileID: 21300000, guid: c0f33e59a9ab49c4b83363a3d865a97d, type: 3}
+  - name: F1_stack_2
+    sprite: {fileID: 21300000, guid: 65dad8578e462ef4e91660c108070ce7, type: 3}
+  - name: F1_stack_3
+    sprite: {fileID: 21300000, guid: 0b8b6e4f75ca0094fb3654eb59a31ad3, type: 3}
+  - name: F1_trapdoor_closed
+    sprite: {fileID: 21300000, guid: c3f0394996c31be43969e934214b5432, type: 3}
+  - name: F1_trapdoor_open
+    sprite: {fileID: 21300000, guid: a0979233ea755e947b459e0b103fa605, type: 3}
+  - name: F1_typecase
+    sprite: {fileID: 21300000, guid: a8b9f68094927f146a7aa30edff23fbe, type: 3}
+  - name: F1_wall_secret
+    sprite: {fileID: 21300000, guid: 30fce5960a5309b4cbf48ac960bd1d88, type: 3}
+  - name: F1_wall_secret_broken
+    sprite: {fileID: 21300000, guid: 8a7e0fcbebcafd9419684ea50ca52ffe, type: 3}
+  - name: G_door
+    sprite: {fileID: 21300000, guid: 0ce341f719e6e614fbc36a620a27ceb6, type: 3}
+  - name: G_door_ajar
+    sprite: {fileID: 21300000, guid: 91bab9d2afe61d64aaa562889ced6757, type: 3}
+  - name: G_door_closed
+    sprite: {fileID: 21300000, guid: 047ae762d1a6d5b4badfe90f86808f83, type: 3}
+  - name: G_door_front_ajar
+    sprite: {fileID: 21300000, guid: 25cc70c31d36fab428711b81fc524909, type: 3}
+  - name: G_door_front_closed
+    sprite: {fileID: 21300000, guid: 1386bc2be308a844aae8d7ab60ccfd19, type: 3}
+  - name: G_elias_down
+    sprite: {fileID: 21300000, guid: baa1dac267b762c4688d0ebc179da98b, type: 3}
+  - name: G_elias_right
+    sprite: {fileID: 21300000, guid: 9c262ff676ac8a24e91b0c3f588f6f0f, type: 3}
+  - name: G_elias_right2
+    sprite: {fileID: 21300000, guid: 6a36081f259198944bc5c741e68f5bb5, type: 3}
+  - name: G_elias_topdown
+    sprite: {fileID: 21300000, guid: 846af0696936f314483e70b02f10877e, type: 3}
+  - name: G_elias_up
+    sprite: {fileID: 21300000, guid: ba7f46b41760f1d439a7993ef26a56ad, type: 3}
+  - name: G_press
+    sprite: {fileID: 21300000, guid: 81fcb17a0983f02409e754cf25af6ad3, type: 3}
+  - name: G_press_body
+    sprite: {fileID: 21300000, guid: 1498b202872732e48a3f09ec5f502dd8, type: 3}
+  - name: G_press_plate
+    sprite: {fileID: 21300000, guid: b7d44d3c80ead9c4790352df017c6c48, type: 3}
+  - name: G_printhouse
+    sprite: {fileID: 21300000, guid: 8dea7074ed96f4e43995f9d274902343, type: 3}
+  - name: G_printhouse_albedo
+    sprite: {fileID: 21300000, guid: 3860f21dc252ede43bb4bf09f04055d0, type: 3}
+  - name: G_street
+    sprite: {fileID: 21300000, guid: 14a8f00def624ab468682aa0b3b94059, type: 3}
+  - name: G_walk_down_01
+    sprite: {fileID: 21300000, guid: a5cb4467a2c56a74aa234cb044163691, type: 3}
+  - name: G_walk_down_02
+    sprite: {fileID: 21300000, guid: 885cd3187ec82c64a870a9ba73fc12c0, type: 3}
+  - name: G_walk_down_03
+    sprite: {fileID: 21300000, guid: a8dc535cf04073e47adbe3b352afa43e, type: 3}
+  - name: G_walk_down_04
+    sprite: {fileID: 21300000, guid: 2b6436d690c6f5f4187c29c6cec897eb, type: 3}
+  - name: G_walk_down_05
+    sprite: {fileID: 21300000, guid: 5623ae3d165ca5b47aab033e15f610de, type: 3}
+  - name: G_walk_down_06
+    sprite: {fileID: 21300000, guid: d97dca72ac724fc4095554975bce618a, type: 3}
+  - name: G_walk_down_07
+    sprite: {fileID: 21300000, guid: 988677029c576554286f36a52f083842, type: 3}
+  - name: G_walk_down_08
+    sprite: {fileID: 21300000, guid: 935561a66847b9643a26171576f9dec6, type: 3}
+  - name: G_walk_right_01
+    sprite: {fileID: 21300000, guid: c62c3636128f4e940846d5c2449c5120, type: 3}
+  - name: G_walk_right_02
+    sprite: {fileID: 21300000, guid: a5dcf84db2e854f49ac1191fb6236534, type: 3}
+  - name: G_walk_right_03
+    sprite: {fileID: 21300000, guid: a00705efbff8235419b1611e7bb89392, type: 3}
+  - name: G_walk_right_04
+    sprite: {fileID: 21300000, guid: c715b81e7fd929d40b23e0aad4f7583e, type: 3}
+  - name: G_walk_right_05
+    sprite: {fileID: 21300000, guid: d081360ab89db8243b4d1d2b32deb7c2, type: 3}
+  - name: G_walk_right_06
+    sprite: {fileID: 21300000, guid: 1504d295d42d9374282bce99c2e74ed7, type: 3}
+  - name: G_walk_right_07
+    sprite: {fileID: 21300000, guid: 192965657732ef647af7e30504efad1e, type: 3}
+  - name: G_walk_right_08
+    sprite: {fileID: 21300000, guid: 38aa561dd8be1a940aa12ee743a10804, type: 3}
+  - name: G_walk_up_01
+    sprite: {fileID: 21300000, guid: 6a123f7945f02b348a765dbf84860d3b, type: 3}
+  - name: G_walk_up_02
+    sprite: {fileID: 21300000, guid: b911329de0a53404fbe744f51e02f588, type: 3}
+  - name: G_walk_up_03
+    sprite: {fileID: 21300000, guid: 518681badbc14f04186cb38755330ec0, type: 3}
+  - name: G_walk_up_04
+    sprite: {fileID: 21300000, guid: 4ba27107129d17b43b2fde192eaf42c4, type: 3}
+  - name: G_walk_up_05
+    sprite: {fileID: 21300000, guid: 9bd322fd8b95e4c4ea4ea1338b6f8e05, type: 3}
+  - name: G_walk_up_06
+    sprite: {fileID: 21300000, guid: 629d912bdc9b3c047b8be4f86897deca, type: 3}
+  - name: G_walk_up_07
+    sprite: {fileID: 21300000, guid: d9e6a2477ebd28d4a97cd02033997672, type: 3}
+  - name: G_walk_up_08
+    sprite: {fileID: 21300000, guid: 19b011ed0d75c274dbd84d6827ef962a, type: 3}
+  - name: P1-02_bg
+    sprite: {fileID: 21300000, guid: a2949581cd3f4c84f8be859590f0c8d2, type: 3}
+  - name: P1-02_elias
+    sprite: {fileID: 21300000, guid: e21c73dd7c22a2a4e89062442e9bdabd, type: 3}
+  - name: P1-03_desk
+    sprite: {fileID: 21300000, guid: c3f3a068eb78d27418b457eb46540a05, type: 3}
+  - name: P1-03_hand_pen
+    sprite: {fileID: 21300000, guid: 4eb56047c186c57458cadb5c1942ace6, type: 3}
+  - name: P1-04_face_relief
+    sprite: {fileID: 21300000, guid: 9b6422b01a07a5d41a736afcc43e1f6c, type: 3}
+  - name: P1-04_face_tired
+    sprite: {fileID: 21300000, guid: c2ae1e843fabe7c44a77dd14054e41f9, type: 3}
+  - name: P2-02_face_phone
+    sprite: {fileID: 21300000, guid: 5fc33a6ce66cdb14a94b74d879f57a0d, type: 3}
+  - name: P2-03_hand_phone
+    sprite: {fileID: 21300000, guid: 7e9630885d1bcc04984c1ce2a8ebf804, type: 3}
+  - name: P2-04_elias_back
+    sprite: {fileID: 21300000, guid: db0a7731d444eff47ab26b1e421eed31, type: 3}
+  - name: P2-04_walk_01
+    sprite: {fileID: 21300000, guid: 1569a7c0785dc7b4383fcd21999e25cc, type: 3}
+  - name: P2-04_walk_02
+    sprite: {fileID: 21300000, guid: 964f5de98b975d1449426116ecff2c53, type: 3}
+  - name: P2-04_walk_03
+    sprite: {fileID: 21300000, guid: 0c1c49354a0c8064cb4720e30bee7d4d, type: 3}
+  - name: P2-04_walk_04
+    sprite: {fileID: 21300000, guid: 9bce493ee2e126e4ba46eab4be0d514f, type: 3}
+  - name: P2-04_walk_05
+    sprite: {fileID: 21300000, guid: c88efa6030895be4b83418dba9be7bbe, type: 3}
+  - name: P2-04_walk_06
+    sprite: {fileID: 21300000, guid: e8dd129b4c5948a44a1379bd56c7b0b0, type: 3}
+  - name: P2-04_walk_07
+    sprite: {fileID: 21300000, guid: e89c6f6e2a621e04b9d6b5a50dd64d70, type: 3}
+  - name: P2-04_walk_08
+    sprite: {fileID: 21300000, guid: 426f7f3d776633340b64fa804817330b, type: 3}
+  - name: P2-04_wall
+    sprite: {fileID: 21300000, guid: 2f04069c9beb3a8469efd3013a2b94a6, type: 3}
+  - name: P2-05_photo
+    sprite: {fileID: 21300000, guid: 1a354bf08234a604ab327134d7f272fb, type: 3}
+  - name: P2-05_print
+    sprite: {fileID: 21300000, guid: d836d38954fccb743b812fcbc46fbd29, type: 3}
+  - name: P2-05_print_portrait
+    sprite: {fileID: 21300000, guid: d609a5d3452f8d74291a9696dc360c9a, type: 3}
+  - name: P2-06_hand
+    sprite: {fileID: 21300000, guid: 4cbfb4711b2c09c47aedc6385ee54c3d, type: 3}
+  - name: P2-06_photo_back
+    sprite: {fileID: 21300000, guid: 7ab8dcbddf3b807439881ea56fdb6832, type: 3}
+  - name: P3-01_hand_redpencil
+    sprite: {fileID: 21300000, guid: 9ac5e5e389fe74c4b9b2035d768f2d77, type: 3}
+  - name: P3-04_door_30
+    sprite: {fileID: 21300000, guid: c6dc56cf74686d0439b2ee94bc7d4d33, type: 3}
+  - name: P3-04_door_60
+    sprite: {fileID: 21300000, guid: ab587a5e94261a245bec5d66f3a8f54f, type: 3}
+  - name: P3-04_door_90
+    sprite: {fileID: 21300000, guid: fe13a442aa57b7f40b4832c86b4801f8, type: 3}
+  - name: P3-04_door_bg
+    sprite: {fileID: 21300000, guid: 87e8a5e1c975d4a4cb949d8e9c8edfa0, type: 3}
+  - name: P3-04_elias_coat
+    sprite: {fileID: 21300000, guid: a5bfa8b5f3ed03843bf0a2de28eb65e0, type: 3}
+  - name: P3-04_walk_01
+    sprite: {fileID: 21300000, guid: 1d2e97f96143db0488d6e334b3b27693, type: 3}
+  - name: P3-04_walk_02
+    sprite: {fileID: 21300000, guid: 4770dd1200f9ce34985b711a9c46b2b2, type: 3}
+  - name: P3-04_walk_03
+    sprite: {fileID: 21300000, guid: a2755e53bb96000448abd708db58f5f8, type: 3}
+  - name: P3-04_walk_04
+    sprite: {fileID: 21300000, guid: ef1ea447bc09edb448da5c2cdc94cc96, type: 3}
+  - name: P3-04_walk_05
+    sprite: {fileID: 21300000, guid: 3e91c69b25e3f1d49813bf0c8842424f, type: 3}
+  - name: P3-04_walk_06
+    sprite: {fileID: 21300000, guid: 33de0bc59739ae540935e14c3b0f4805, type: 3}
+  - name: P3-04_walk_07
+    sprite: {fileID: 21300000, guid: 6d1a11fdf0249d64eb9d30f590d9b0b9, type: 3}
+  - name: P3-04_walk_08
+    sprite: {fileID: 21300000, guid: 7dc6f083b7cfbb54eb55917db79c7b44, type: 3}
+  - name: P7-01_bg
+    sprite: {fileID: 21300000, guid: d5cfffbaae7a81c42b457e87755433e6, type: 3}
+  - name: P7-01_shelves
+    sprite: {fileID: 21300000, guid: 43b3537a1c0190f4fa901174cfa2488a, type: 3}
+  - name: P7-02_archivist
+    sprite: {fileID: 21300000, guid: b843e02d70fc5c44da85bf9632f7492e, type: 3}
+  - name: P7-02_bg
+    sprite: {fileID: 21300000, guid: 47687c82c062e3a44b5035938d847fd9, type: 3}
+  - name: P7-03_elias
+    sprite: {fileID: 21300000, guid: 665fdfb2b0c87bc45bf41100e26a7fcc, type: 3}
+  - name: P7-04a_calm
+    sprite: {fileID: 21300000, guid: 455d719e3c51c884eac4e1bc156a2919, type: 3}
+  - name: P7-04b_gaze
+    sprite: {fileID: 21300000, guid: 08e4f4fa727ad8744b68040a3091ae81, type: 3}
+  - name: P7-05_hand_sheet
+    sprite: {fileID: 21300000, guid: 7947ebfa3f2b24247bd1df53d5977744, type: 3}
+  - name: P7-06_elias_recognition
+    sprite: {fileID: 21300000, guid: e7926a08e9b0b4a4c92b051d920387ce, type: 3}
+  - name: PR_pen
+    sprite: {fileID: 21300000, guid: e04956c8d3a89ba4e90690c8e7e3ef6b, type: 3}
+  - name: PR_pen_body
+    sprite: {fileID: 21300000, guid: 867cf3da22f4b884eb2dbf2fee0e74fc, type: 3}
+  - name: PR_pen_cap
+    sprite: {fileID: 21300000, guid: 2f6e0783817c07a4dba30f51db8c2378, type: 3}
+  - name: PR_phone
+    sprite: {fileID: 21300000, guid: 4ea5758379e31c5498d4533ceaf91a34, type: 3}
+  - name: PR_phone_off
+    sprite: {fileID: 21300000, guid: a2d37885ff823bb4190fc442c7016f8b, type: 3}
+  - name: PR_phone_on
+    sprite: {fileID: 21300000, guid: 0b28a9712505205499d6f1e6f36546b2, type: 3}
+  - name: PR_redpencil
+    sprite: {fileID: 21300000, guid: 93729e785bf2bd949bc73471e0752f7d, type: 3}
+  - name: PR_sheet
+    sprite: {fileID: 21300000, guid: 428137e985b64c54ba86bca5d77125e2, type: 3}
+  - name: PR_wallclock
+    sprite: {fileID: 21300000, guid: 03e3e78c12a67cb4e922895487edc9de, type: 3}
+  - name: PR_wallclock_face
+    sprite: {fileID: 21300000, guid: 9760dcf2d1a312c4bbdc944086d474a7, type: 3}
+  - name: PR_wallclock_hour
+    sprite: {fileID: 21300000, guid: 5c793d527a46e8a4bbae6cc9a99dfb0b, type: 3}
+  - name: PR_wallclock_minute
+    sprite: {fileID: 21300000, guid: 58bc5cf75b44a204a8a9a487cbf64e1b, type: 3}
+  - name: PR_watch
+    sprite: {fileID: 21300000, guid: cd45bc3945fcba64da0313cbcd378e7c, type: 3}
+  - name: PR_watch_face
+    sprite: {fileID: 21300000, guid: cca756b504d81544f9c7ce0bef633301, type: 3}
+  - name: PR_watch_hour
+    sprite: {fileID: 21300000, guid: f32d1c9577fe0134dbc14bf9fc976220, type: 3}
+  - name: PR_watch_minute
+    sprite: {fileID: 21300000, guid: b6344931d35ddbd408b46eac1923f296, type: 3}
+  - name: car1_A
+    sprite: {fileID: 21300000, guid: 25fe3291d3e0fd747b08ef5b2ebcff31, type: 3}
+  - name: car1_B
+    sprite: {fileID: 21300000, guid: ea8e02b1b8d522d4cb1210b2e13e0e38, type: 3}
+  - name: car2_A
+    sprite: {fileID: 21300000, guid: c6f950589ea551b479ec76ea39954087, type: 3}
+  - name: car2_B
+    sprite: {fileID: 21300000, guid: dac733bdbc507904da279347ae481ef7, type: 3}
+  - name: car3_A
+    sprite: {fileID: 21300000, guid: 884d020c2500ed94a9b204ff40b0a075, type: 3}
+  - name: car3_B
+    sprite: {fileID: 21300000, guid: 6b39535de59e6f846a7327a48792a7a6, type: 3}
+  - name: car4_A
+    sprite: {fileID: 21300000, guid: c3eeaa785b2b43b4db9f580ce123077f, type: 3}
+  - name: car4_B
+    sprite: {fileID: 21300000, guid: 43f0575bc71b03f498608984947301f6, type: 3}
+  - name: occ_print_drawers
+    sprite: {fileID: 21300000, guid: ac29fcda94c31d649a740847535e6db7, type: 3}
+  - name: occ_street_bollard_a
+    sprite: {fileID: 21300000, guid: 6f2e18bcefb41084d8df6597aeffd86d, type: 3}
+  - name: occ_street_bollard_b
+    sprite: {fileID: 21300000, guid: fcdad3176c5bbcf4fa148df536f9b24c, type: 3}
+  - name: occ_street_bollard_c
+    sprite: {fileID: 21300000, guid: 3bf7500370f306f4c930a47b7394864d, type: 3}
+  - name: occ_street_bollard_d
+    sprite: {fileID: 21300000, guid: cc557b3b27a881c4dbc05d04cb65ee74, type: 3}
+  - name: occ_street_bollard_e
+    sprite: {fileID: 21300000, guid: 3f835778825b6d54dabc8a62cf4eacda, type: 3}
+  - name: occ_street_bollard_f
+    sprite: {fileID: 21300000, guid: 35d2ca69111f4414fb3dd52c4f4ba5b2, type: 3}
+  - name: occ_street_car_left
+    sprite: {fileID: 21300000, guid: 09b6b9d3c96789040a253aca99865f3d, type: 3}
+  - name: occ_street_car_right
+    sprite: {fileID: 21300000, guid: 5faee57168a402e46a26f8e036c10aee, type: 3}
+  - name: occ_street_lamp1
+    sprite: {fileID: 21300000, guid: 2964f656acebb314287361e326fb28f3, type: 3}
+  - name: occ_street_lamp2
+    sprite: {fileID: 21300000, guid: 97f0f1ecaecc21a41bb12e50540ef3f3, type: 3}
+  - name: occ_street_lamp3
+    sprite: {fileID: 21300000, guid: e2cc8ff5bd7ee0743920c1b8848ef914, type: 3}
+  - name: occ_street_lamp4
+    sprite: {fileID: 21300000, guid: c56822aa8d1d2d54192b1c3e2625a762, type: 3}
+  - name: occ_street_pillar_l
+    sprite: {fileID: 21300000, guid: 9d737cc212baffd47a3502b846772052, type: 3}
+  - name: occ_street_pillar_r
+    sprite: {fileID: 21300000, guid: 5f7229a8fc4c0db44a0efe157a49437d, type: 3}
+  - name: occ_street_trafficlight
+    sprite: {fileID: 21300000, guid: 2565c9b9cdfd4c64e87c4874fb2eaf28, type: 3}
+  - name: occ_street_tree
+    sprite: {fileID: 21300000, guid: 2d065b07c0765ec468c8fe69962e025f, type: 3}
+  - name: truck_A
+    sprite: {fileID: 21300000, guid: a782053dd18de4b4e95854d8a153c125, type: 3}
+  clips:
+  - name: MUS_prologue
+    clip: {fileID: 8300000, guid: 75990138b9e4cd94a929484f0766f27c, type: 3}
+  - name: MUS_title_sting
+    clip: {fileID: 8300000, guid: 2137385fc109c134290b687ae521ce60, type: 3}
+  - name: SFX_archive_ambience
+    clip: {fileID: 8300000, guid: b6d5c5604872550459d5c77d39552d1f, type: 3}
+  - name: SFX_book_close
+    clip: {fileID: 8300000, guid: 80aa29cca4738464486e1551a94d7dc6, type: 3}
+  - name: SFX_brakes_ghost
+    clip: {fileID: 8300000, guid: 592f21794b7de574b9daae894eee66ea, type: 3}
+  - name: SFX_chair_creak
+    clip: {fileID: 8300000, guid: cbae0a657afe9ed44b45295ef89955e5, type: 3}
+  - name: SFX_clock_tick
+    clip: {fileID: 8300000, guid: f7740b06931df624290c698160a4e196, type: 3}
+  - name: SFX_door_apartment
+    clip: {fileID: 8300000, guid: 785ad3d554e49d84e88b221b6011fae4, type: 3}
+  - name: SFX_door_palinode
+    clip: {fileID: 8300000, guid: 98fec00d0503a9641b5079a253482f27, type: 3}
+  - name: SFX_door_printhouse
+    clip: {fileID: 8300000, guid: 76e9fbfa3f0f94a45934b1a727834b22, type: 3}
+  - name: SFX_footsteps_wet
+    clip: {fileID: 8300000, guid: 36a7fa7ccc772cd4897167586767704e, type: 3}
+  - name: SFX_light_flicker
+    clip: {fileID: 8300000, guid: e5eb2fc6a37359847b9f4526b14e53a1, type: 3}
+  - name: SFX_paper_rustle
+    clip: {fileID: 8300000, guid: 99eff0726f8012a47b2065f5c7e6cbe9, type: 3}
+  - name: SFX_pencil_dot
+    clip: {fileID: 8300000, guid: c8559d2b2b671924ab3f8c92b17eef18, type: 3}
+  - name: SFX_pencil_write
+    clip: {fileID: 8300000, guid: da2e96b9f31ec3342b4956d4083ebf01, type: 3}
+  - name: SFX_pen_strike
+    clip: {fileID: 8300000, guid: 6c3dcf724d4289043ade4eb9221e2d9c, type: 3}
+  - name: SFX_pen_write
+    clip: {fileID: 8300000, guid: 3753d853fb267d541a4b26d91453de90, type: 3}
+  - name: SFX_phone_message
+    clip: {fileID: 8300000, guid: 23839b130f3957f4c92e576b8dd16f4b, type: 3}
+  - name: SFX_phone_vibrate
+    clip: {fileID: 8300000, guid: 41ac6d0949735d14d8a6a695c96182cf, type: 3}
+  - name: SFX_photo_flip
+    clip: {fileID: 8300000, guid: 8ccde4fe9a59ab84687545cff0f2e16f, type: 3}
+  - name: SFX_press_clack
+    clip: {fileID: 8300000, guid: b9e45563355c47c4d8b33da7314ae8ee, type: 3}
+  - name: SFX_rain_street
+    clip: {fileID: 8300000, guid: 85e6e34002d7e054b93d15067129d9f2, type: 3}
+  - name: SFX_rain_window
+    clip: {fileID: 8300000, guid: 3c82c21e3ed27cf43afbec93881b5fe9, type: 3}
+  - name: SFX_sheet_slide
+    clip: {fileID: 8300000, guid: 616fed5d744f0354a9bdca9e23cf2faa, type: 3}
+  - name: SFX_traffic_far
+    clip: {fileID: 8300000, guid: fa10a7cdfce0f744196922fc6b147dce, type: 3}
+  - name: SFX_truck_rumble
+    clip: {fileID: 8300000, guid: 40b84ef12c0d9ed4e82da5ec03965c75, type: 3}
+  - name: MUS_menu
+    clip: {fileID: 8300000, guid: 76b6b7ce95834e8438fbcdcfc41d01b2, type: 3}
+  - name: MUS_printhouse
+    clip: {fileID: 8300000, guid: db47367421c47384cb2d537a15246191, type: 3}
+  - name: MUS_printhouse_door
+    clip: {fileID: 8300000, guid: 233bd3be1ed278d4eb9ac8b4b636008c, type: 3}
+  - name: MUS_scene1_night
+    clip: {fileID: 8300000, guid: f431b78aef887184687658a78dcb0577, type: 3}
+  - name: MUS_scene2_call
+    clip: {fileID: 8300000, guid: 7d880066da2471143a9ec7e61c0d83bc, type: 3}
+  - name: MUS_scene3_after
+    clip: {fileID: 8300000, guid: 36e10b07a4a93354d93c662f08e73873, type: 3}
+  - name: MUS_scene7_archivist
+    clip: {fileID: 8300000, guid: adffda4e97580ba41b81d662ded3ad33, type: 3}
+  - name: MUS_sting_dot
+    clip: {fileID: 8300000, guid: 8d302d9cca614a645ab4ec6d321523a1, type: 3}
+  - name: MUS_street
+    clip: {fileID: 8300000, guid: c96fc1ac159fc684da12987e52af68ea, type: 3}
+  - name: MUS_theme_palinode
+    clip: {fileID: 8300000, guid: 25a6b2685043dc248ac403015dd5763f, type: 3}
+  - name: MUS_title
+    clip: {fileID: 8300000, guid: a4dc7742c951c494fabd1191b02175a2, type: 3}
+  - name: SFX_clock_tick_n
+    clip: {fileID: 8300000, guid: a0ad523bf0047ca46ba7e2accfc9ff1c, type: 3}
+  - name: SFX_pen_write_n
+    clip: {fileID: 8300000, guid: 6f60e286e691df34bb74b4ac2c6aae54, type: 3}
+  - name: SFX_phone_vibrate_desk
+    clip: {fileID: 8300000, guid: 7e1295b24ec81414f95ac636cedf0e1f, type: 3}
+  - name: en/VO_arch_01
+    clip: {fileID: 8300000, guid: 8c2e7c81c9df8b54288fe4dc6610326f, type: 3}
+  - name: en/VO_arch_02
+    clip: {fileID: 8300000, guid: 18eef695f03ca764eb160ea45a1feb97, type: 3}
+  - name: en/VO_arch_03
+    clip: {fileID: 8300000, guid: fb555dd3403e7db47b9a2d6494c030ed, type: 3}
+  - name: en/VO_arch_04
+    clip: {fileID: 8300000, guid: aaaf064fb2e9ff447b8b53ca1f401854, type: 3}
+  - name: en/VO_arch_05
+    clip: {fileID: 8300000, guid: 9553e4d84bc46174a971a4bf9766236c, type: 3}
+  - name: en/VO_arch_06
+    clip: {fileID: 8300000, guid: 232a650b21f7b0644a8fb13c14d3ee80, type: 3}
+  - name: en/VO_arch_07
+    clip: {fileID: 8300000, guid: 32f1a17923af0964492d1e5aeeae77c8, type: 3}
+  - name: en/VO_arch_breath
+    clip: {fileID: 8300000, guid: 6802a4698250b5d4b8d4df2a608c67bd, type: 3}
+  - name: en/VO_eli_01
+    clip: {fileID: 8300000, guid: 75d5383aeddf709499f47444afebcd19, type: 3}
+  - name: en/VO_eli_02
+    clip: {fileID: 8300000, guid: 23f9e1f5cc73f4a4eb08ba26319fa781, type: 3}
+  - name: en/VO_eli_03
+    clip: {fileID: 8300000, guid: da3d82f7504545c4ab307d1fd1820e8a, type: 3}
+  - name: en/VO_eli_04
+    clip: {fileID: 8300000, guid: 9d613375af4ff45458aa7a89eaae3075, type: 3}
+  - name: ru/VO_arch_01
+    clip: {fileID: 8300000, guid: 32cb89c8abec14048acf25bda180b419, type: 3}
+  - name: ru/VO_arch_02
+    clip: {fileID: 8300000, guid: 7adeb6f59e618294ca21fe60854a3a2b, type: 3}
+  - name: ru/VO_arch_03
+    clip: {fileID: 8300000, guid: c58815f6d1fd55349b57aa4a976837bc, type: 3}
+  - name: ru/VO_arch_04
+    clip: {fileID: 8300000, guid: 774dd1f1cb0763f4a88781f58c560577, type: 3}
+  - name: ru/VO_arch_05
+    clip: {fileID: 8300000, guid: fa07188c4a811864b8bc886d7665f959, type: 3}
+  - name: ru/VO_arch_06
+    clip: {fileID: 8300000, guid: 4a5ce3cec64eb4e4089a20bcdb34690f, type: 3}
+  - name: ru/VO_arch_07
+    clip: {fileID: 8300000, guid: 4f9f5c556f885ba428f4c7d7545b9ee6, type: 3}
+  - name: ru/VO_arch_breath
+    clip: {fileID: 8300000, guid: eb97eddc6952475439682d1f771d8490, type: 3}
+  - name: ru/VO_eli_01
+    clip: {fileID: 8300000, guid: 1a38b3cb271ffdb44b0c789e81c44c4e, type: 3}
+  - name: ru/VO_eli_02
+    clip: {fileID: 8300000, guid: 661f1a4f0ca707241b7fb7ae4d24cda4, type: 3}
+  - name: ru/VO_eli_03
+    clip: {fileID: 8300000, guid: 066b5f30f57d55849a5a6a10d37b748d, type: 3}
+  - name: ru/VO_eli_04
+    clip: {fileID: 8300000, guid: e5d3ac65ae9c033469c4f95d08b602dd, type: 3}
+  - name: F1_amb_printhouse_1
+    clip: {fileID: 8300000, guid: da1798b235ac35f40817eef5eb0ca20c, type: 3}
+  - name: F1_amb_printhouse_2
+    clip: {fileID: 8300000, guid: 48e0f3b2c0da2e94490fbf5825237a90, type: 3}
+  - name: F1_sfx_blot_jump
+    clip: {fileID: 8300000, guid: 554a71d7f6672784da67294af2406f5a, type: 3}
+  - name: F1_sfx_blot_land
+    clip: {fileID: 8300000, guid: 71704db370cbb9e41a1b83c95c30474c, type: 3}
+  - name: F1_sfx_bug_scuttle
+    clip: {fileID: 8300000, guid: 3a6282a1ca7f2984fba3a400a4ea2ae1, type: 3}
+  - name: F1_sfx_compositor_windup
+    clip: {fileID: 8300000, guid: ab353f86b3a73db41a9c30db15c6cabf, type: 3}
+  - name: F1_sfx_door_close
+    clip: {fileID: 8300000, guid: 1b7b8bca2a6756042ae6bec44b834dad, type: 3}
+  - name: F1_sfx_door_open
+    clip: {fileID: 8300000, guid: ba6928cc88208894c870dcf53e88c85a, type: 3}
+  - name: F1_sfx_ink_hit
+    clip: {fileID: 8300000, guid: 16bb28818d9db74478220add79b8971b, type: 3}
+  - name: F1_sfx_ink_shot
+    clip: {fileID: 8300000, guid: af6817a403e76434e87c99406d5bf8bf, type: 3}
+  - name: F1_sfx_ink_splat
+    clip: {fileID: 8300000, guid: b154a123af998b04f84be1dea9e7faf1, type: 3}
+  - name: F1_sfx_letters_clatter
+    clip: {fileID: 8300000, guid: 469699078604b8d49bf134470c790000, type: 3}
+  - name: F1_sfx_letter_fall
+    clip: {fileID: 8300000, guid: 38dcca49ea907f346aa8eba5b0d52c5f, type: 3}
+  - name: F1_sfx_page_turn
+    clip: {fileID: 8300000, guid: cf3397a66b2ebf745b5da31fa0e98a9d, type: 3}
+  - name: F1_sfx_pickup_ink
+    clip: {fileID: 8300000, guid: ff663255655213d4db557304af44c417, type: 3}
+  - name: F1_sfx_pickup_item
+    clip: {fileID: 8300000, guid: 8b37d0bfce41be8479984c51b0aebbf2, type: 3}
+  - name: F1_sfx_pickup_page
+    clip: {fileID: 8300000, guid: 27dc43df43fc64742977d8ee9760278e, type: 3}
+  - name: F1_sfx_player_hurt
+    clip: {fileID: 8300000, guid: 60150349ccf0d0941a233088cc384289, type: 3}
+  - name: F1_sfx_redpencil
+    clip: {fileID: 8300000, guid: af316cca2e9708d41adf18ddeed9759f, type: 3}
+  - name: F1_sfx_revision
+    clip: {fileID: 8300000, guid: 49132a1ef6bdecf40b37a38b72b66503, type: 3}
+  - name: F1_sfx_secret_open
+    clip: {fileID: 8300000, guid: b684272c39f71194b999074e8721aec8, type: 3}
+  materials:
+  - name: SpriteLit
+    material: {fileID: 2100000, guid: dc1933b03620bab449cf8bf6ed4c1f8a, type: 2}
+  - name: SpriteUnlit
+    material: {fileID: 2100000, guid: e9e2ce155430ae84084210012757b2f5, type: 2}
+  - name: ParticleAlpha
+    material: {fileID: 2100000, guid: 09455fb3cfbd8844da0bb7f811e915ae, type: 2}
+  - name: ParticleAdd
+    material: {fileID: 2100000, guid: d477f5f5ef06f2c41bc9ef9761c1c0f5, type: 2}
+  - name: GlowAdd
+    material: {fileID: 2100000, guid: 712bf2c19f0059347b710d3900040747, type: 2}
+  - name: RainGlass
+    material: {fileID: 2100000, guid: d35ac6cb89461294287f33f6485a6b1f, type: 2}
+  - name: Fog
+    material: {fileID: 2100000, guid: 3b91a65e389a9834ea7774e58fbb23ff, type: 2}
+  - name: Imprint
+    material: {fileID: 2100000, guid: fe0214dcf88e5424e968ad07a8676a02, type: 2}
+  - name: InkSDF
+    material: {fileID: 2100000, guid: eb96f9eeea1ec25448d0682a0ee796d8, type: 2}
+  - name: Ghost
+    material: {fileID: 2100000, guid: 0ed1c7286e31ae241abd6d9f921765ee, type: 2}
+  - name: Occluder
+    material: {fileID: 2100000, guid: d07ac40ec5763b340a4bd1d7e6aa1c92, type: 2}
+  - name: Solid
+    material: {fileID: 2100000, guid: 6fc89aeed52a3d24ba7c44eecc7a88a6, type: 2}
+  handwritingFont: {fileID: 11400000, guid: 3aee1117236579e4d9af61ef36ece2b3, type: 2}
+  monoFont: {fileID: 11400000, guid: 7d02fbd71859ab347b04f37da2e3b4df, type: 2}
+  titleFont: {fileID: 11400000, guid: 7c4a53b656ec1a442a19872eeefbaebf, type: 2}
+  fonts:
+  - name: hand_marck
+    font: {fileID: 11400000, guid: ea6db52e77d2c47499e234ca615006be, type: 2}
+  - name: hand_bad
+    font: {fileID: 11400000, guid: 5bde8460d9c989142b6f098726a66f82, type: 2}
+  - name: hand_caveat
+    font: {fileID: 11400000, guid: 3aee1117236579e4d9af61ef36ece2b3, type: 2}
+  audioLevels: {fileID: 4900000, guid: 964333e1e7dd393499d1344a72008c59, type: 3}
+  artMeta: {fileID: 4900000, guid: 3088f052691ea484b81c2a74e2da7a7d, type: 3}
+  texts:
+  - name: floor1
+    text: {fileID: 4900000, guid: aa9892eede36d684f8d2d7b017f8d9fa, type: 3}
+  - name: floor1_audio
+    text: {fileID: 4900000, guid: 0fce852bd32f733498d84ec661f92307, type: 3}
+  - name: floor1_templates
+    text: {fileID: 4900000, guid: bdbfd72304c187e43a927a4c706723e5, type: 3}

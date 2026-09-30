@@ -1,0 +1,227 @@
+{
+  // ================================================================ PALINODE — Floor I "The Press": balance & layout
+  // All numbers are starting values for playtesting. Units: 1 cell = 1 world unit horizontally ("cells/s" speeds);
+  // a cell's height on screen comes from each background's calibration (3/4 view, ~0.75).
+  // Localized texts live in Prologue/Data/localization.csv (keys F1_*).
+
+  "scene": "Floor1",
+  "chapter": 1,
+  "seed": 0,                       // 0 = random each run; any other value = fixed floor (debugging)
+
+  // ortho: half the visible height in cells (4.75 = a whole ordinary room on a 16:9 screen); bossOrtho for the arena.
+  // bossBias: how far the arena view is pulled from Elias toward the press (0 = follow Elias, 1 = look at the press).
+  "camera": { "ortho": 4.75, "bossOrtho": 6.8, "bossBias": 0.45, "slide": 0.32, "follow": 7.0, "background": "#050404" },
+
+  // ---------------------------------------------------------------- Elias
+  "player": {
+    "halves": 6,                   // start health: 3 ink drops = 6 halves
+    "maxDrops": 12,                // containers cap
+    "damage": 3.5,
+    "fireRate": 2.7,               // shots per second
+    "range": 6.5,                  // cells
+    "shotSpeed": 8.0,              // cells/s
+    "inherit": 0.3,                // part of Elias's velocity added to a shot
+    "speed": 4.5,                  // cells/s
+    "accel": 38, "decel": 30,      // inertia (cells/s²)
+    "iframes": 1.0,                // invulnerability after a hit (s), blinking
+    "knockback": 5.0,
+    "radius": 0.3,                 // feet circle (cells)
+    "width": 1.05,                 // sprite width on screen (cells)
+    "shootPose": 0.2,              // shooting pose after each shot (s)
+    "poseHeight": 2.15,            // on-screen height of the shooting poses (cells)
+    "pickupHeight": 2.45,          // on-screen height of the "item over the head" pose
+    "fallenWidth": 2.3,            // width of the struck-out body
+    "shotHeight": 0.95,            // the drop flies this high above its shadow (cells)
+    "cycle": 1.35,                 // cells walked per full walk cycle (feet never slide)
+    "lightRadius": 4.0,            // dark rooms: visible circle (cells)
+    "walk": {
+      "blend": 0.5,
+      "down":  { "prefix": "G_walk_down_",  "count": 8, "idle": 2, "plants": [0, 4] },
+      "up":    { "prefix": "G_walk_up_",    "count": 8, "idle": 3, "plants": [1, 5] },
+      "right": { "prefix": "G_walk_right_", "count": 8, "idle": 2, "plants": [3, 7] }
+    },
+    "shoot": { "down": "F1_shoot_down", "up": "F1_shoot_up", "left": "F1_shoot_left", "right": "F1_shoot_right" },
+    "footsteps": "SFX_footsteps_wet", "footstepVolume": 0.18
+  },
+
+  // ---------------------------------------------------------------- floor structure
+  "generation": {
+    "grid": [9, 8],
+    "rooms": [9, 12],              // rooms of the floor (without the secret one)
+    "combat": [6, 9],
+    "reject": 0.5,
+    "minBossDistance": 3,
+    "bigRoom": { "max": 1, "chance": 0.6, "minDistance": 2 },
+    "shopChance": 0.15,
+    "darkChance": 0.25, "darkMinDistance": 4,     // "~25% of rooms beyond the 3rd"
+    "secretMinNeighbors": 3,
+    "maxAttempts": 5000
+  },
+  "difficulty": {
+    // Enemy points per room by distance from the start (rooms).
+    "budget": [ { "upTo": 2, "points": 4 }, { "upTo": 4, "points": 6 }, { "upTo": 99, "points": 8 } ],
+    "bigWaves": 2,
+    "waveDelay": 1.2
+  },
+  "rewards": {
+    "chance": 0.35,
+    "table": [ { "pickup": "drop", "weight": 45 }, { "pickup": "sheet", "weight": 40 }, { "pickup": "inkwell", "weight": 15 } ]
+  },
+
+  // ---------------------------------------------------------------- backgrounds (painted rooms)
+  // floor: walkable rectangle in image pixels [x0, y0, x1, y1] (top-left origin); cells: its size in cells.
+  // blocked: painted furniture the player cannot walk through ([col, row]); windows: image-pixel rectangles
+  // (the ghost car's headlights sweep across them). Add a new background with one line here and one in "rooms".
+  "backgrounds": {
+    "F1_room_b":         { "floor": [205, 290, 1515, 815], "cells": [13, 7], "windows": [[510, 55, 210, 180], [1000, 55, 205, 180]] },
+    "F1_room_a":         { "floor": [205, 290, 1515, 815], "cells": [13, 7], "windows": [[510, 55, 210, 180], [1000, 55, 210, 180]] },
+    "F1_room_big":       { "floor": [160, 232, 1955, 596], "cells": [26, 7],
+                           "windows": [[405, 35, 155, 150], [775, 35, 155, 150], [1150, 35, 155, 150], [1530, 35, 155, 150]] },
+    "F1_boss_arena":     { "floor": [120, 200, 1600, 830], "cells": [26, 14], "windows": [[270, 20, 120, 130], [1320, 20, 120, 130]] },
+    "F1_room_corrector": { "floor": [205, 290, 1515, 815], "cells": [13, 7], "windows": [[515, 50, 205, 185], [1000, 50, 205, 185]],
+                           "blocked": [[5, 3], [6, 3], [7, 3], [5, 4], [6, 4], [7, 4]] },
+    "F1_room_memory":    { "floor": [205, 290, 1515, 815], "cells": [13, 7], "windows": [[515, 60, 205, 180], [1000, 60, 205, 180]],
+                           "blocked": [[2, 1], [3, 1], [2, 2], [3, 2], [12, 1], [12, 2]] },
+    "F1_room_shop":      { "floor": [205, 290, 1515, 815], "cells": [13, 7], "windows": [[515, 50, 205, 185], [1000, 50, 205, 185]],
+                           "blocked": [[3, 3], [4, 3], [6, 3], [7, 3], [9, 3], [10, 3], [3, 4], [4, 4], [6, 4], [7, 4], [9, 4], [10, 4], [9, 1]] },
+    "F1_room_secret":    { "floor": [240, 370, 1250, 890], "cells": [7, 5], "blocked": [[3, 3]] },
+    "F1_corridor":       { "floor": [60, 300, 1760, 470], "cells": [15, 4] }
+  },
+  "rooms": {
+    // Ordinary rooms: a background is picked by weight (F1_room_a can join with its own weight).
+    "combat": [ { "background": "F1_room_b", "weight": 1 }, { "background": "F1_room_a", "weight": 0 } ],
+    "start": "F1_room_b",
+    "big": "F1_room_big",
+    "boss": "F1_boss_arena",
+    "corrector": "F1_room_corrector",
+    "shop": "F1_room_shop",
+    "memory": "F1_room_memory",
+    "secret": "F1_room_secret",
+    "corridor": "F1_corridor"
+  },
+
+  // ---------------------------------------------------------------- doors & room furniture (sizes in cells)
+  "doors": {
+    "normal": { "closed": "F1_door_closed", "open": "F1_door_open", "width": 2.1 },
+    "boss":   { "closed": "F1_door_boss_closed", "open": "F1_door_boss_open", "width": 3.2 },
+    "secret": { "closed": "F1_wall_secret", "open": "F1_wall_secret_broken", "width": 2.1, "hits": 3 },
+    "sideScale": 0.8                // left/right/bottom doors (rotated like in Isaac) are a bit smaller
+  },
+  "objects": {
+    "press":    { "sprite": "F1_press", "width": 2.0 },
+    "stack":    { "sprites": ["F1_stack_1", "F1_stack_2", "F1_stack_3"], "width": 0.95, "hits": 3, "sheetChance": 0.10 },
+    "typecase": { "sprite": "F1_typecase", "width": 1.0 },
+    "drying":   { "sprite": "F1_drying", "width": 1.05, "hits": 1 },
+    "puddle":   { "sprite": "F1_puddle", "width": 1.25, "slow": 0.4 },
+    "belt":     { "sprite": "F1_belt", "end": "F1_belt_end", "speed": 2.0 },
+    "desk":     { "sprite": "F1_desk", "width": 2.4 },
+    "pedestal": { "sprite": "F1_pedestal", "width": 0.95 },
+    "trapdoor": { "closed": "F1_trapdoor_closed", "open": "F1_trapdoor_open", "width": 1.8 }
+  },
+
+  // ---------------------------------------------------------------- enemies
+  "enemies": {
+    "spawnGrace": 0.5,             // first seconds after appearing: no attacks
+    "eliteHp": 1.5,                // "Witness of Revision NN"
+    "letters": {
+      "points": 2, "perPoints": 3, "groupMin": 3, "groupMax": 6, "hp": 3, "speed": 3.0, "damage": 1, "width": 0.62,
+      "letters": "MMAARREELLIISSTON", "maraChance": 0.05, "jitter": 0.35, "weight": 3, "minDistance": 1
+    },
+    "bug": {
+      "points": 1, "hp": 6, "speed": 5.0, "damage": 1, "width": 0.85, "zigzag": 0.55, "dodge": 3.5, "eatInk": true,
+      "weight": 3, "minDistance": 1
+    },
+    "blot": {
+      "points": 2, "hp": 10, "damage": 1, "width": 1.2, "interval": 1.6, "telegraph": 0.4, "jump": 3.0, "jumpTime": 0.55,
+      "puddle": { "size": 2, "time": 5.0 },
+      "small": { "hp": 3, "jump": 2.0, "width": 0.6 },
+      "weight": 2, "minDistance": 1
+    },
+    "compositor": {
+      "points": 3, "hp": 14, "speed": 2.0, "damage": 1, "width": 1.25, "keepMin": 4.0, "keepMax": 6.0,
+      "telegraph": 0.7, "line": 5, "lineGap": 0.12, "bulletSpeed": 6.0, "reload": 2.5,
+      "weight": 2, "minDistance": 2
+    },
+    "headlights": {
+      "points": 4, "hp": 17, "speed": 2.2, "orbit": 4.5, "damage": 2, "width": 2.1,
+      "telegraph": 0.8, "dash": 14.0, "vulnerable": 1.2, "vulnerableMul": 2.0, "nearMiss": 1.2, "cooldown": [1.2, 2.2],
+      "weight": 3, "minDistance": 3, "darkOnly": true
+    }
+  },
+
+  // ---------------------------------------------------------------- boss "Tirazh"
+  "boss": {
+    "hp": 400,
+    "phases": [0.65, 0.30],        // phase 2 below 65%, phase 3 below 30%
+    "body": { "sprite": "F1_boss_body", "col": 10, "cells": [6, 3] },
+    "flywheel": { "sprite": "F1_boss_flywheel", "width": 2.4, "speed": [60, 130, 240] },
+    "platen": { "closed": "F1_boss_platen_closed", "open": "F1_boss_platen_open", "width": 2.6, "open_time": 2.0, "weakMul": 2.0 },
+    "roller": { "sprite": "F1_boss_roller", "telegraph": 1.0, "speed": 13.0, "damage": 2, "interval": [3.4, 3.0, 2.6], "bands": 3 },
+    "fan": { "count": 5, "spread": 60, "speed": 5.0, "interval": 3.0 },
+    "ring": { "count": 12, "speed": 4.2, "interval": 4.0 },
+    "belts": { "speed": 2.0 },
+    "letters": { "interval": 10.0, "count": 3 },
+    "copies": { "max": 2, "hp": 8, "delay": 3.0, "interval": 7.0 },
+    "headline": { "telegraph": 1.5, "size": 2.0, "interval": 6.0, "damage": 2 },
+    "enrage": { "below": 0.10, "rateMul": 2.0 },
+    "sheet": { "sprite": "F1_sheet_proj", "hp": 1 }
+  },
+
+  // ---------------------------------------------------------------- items
+  "items": {
+    "typewriter": { "icon": "F1_item_typewriter", "fireRateMul": 1.6, "damageMul": 0.7, "letterShots": true },
+    "carbon":     { "icon": "F1_item_carbon", "doubleShot": true, "copyDamage": 0.6 },
+    "paperclips": { "icon": "F1_item_paperclips", "pierce": true },
+    "stamp":      { "icon": "F1_item_stamp", "every": 5, "damageMul": 3.0, "stun": 0.5 },
+    "coffee":     { "icon": "F1_item_coffee", "speedAdd": 0.5, "fireRateMul": 1.1 },
+    "energy":     { "icon": "F1_item_energy", "fireRateMul": 1.35, "microSleepEvery": 20.0, "microSleep": 0.3 },
+    "blotter":    { "icon": "F1_item_blotter", "absorbPerRoom": 1 },
+    "magnifier":  { "icon": "F1_item_magnifier", "rangeAdd": 2.5, "shotSpeedMul": 1.2 },
+    "pools": {
+      "corrector": ["typewriter", "carbon", "paperclips", "stamp", "coffee", "energy", "blotter", "magnifier"],
+      "boss":      ["typewriter", "carbon", "stamp", "blotter"],
+      "secret":    ["stamp", "energy"],
+      "shop":      ["typewriter", "carbon", "paperclips", "stamp", "coffee", "energy", "blotter", "magnifier"]
+    }
+  },
+  "redPencil": {
+    "icon": "PR_redpencil",
+    "charge": 4,                   // cleared rooms per charge
+    "chance": 0.75,                // chance it lies on the boss pedestal
+    "bossDamage": 0.2,             // fraction of the boss's max HP
+    "reviveHalves": 2
+  },
+  "pickups": {
+    "drop":    { "sprite": "F1_pickup_drop", "heal": 1, "width": 0.45 },
+    "inkwell": { "sprite": "F1_pickup_inkwell", "heal": 2, "width": 0.55 },
+    "sheet":   { "sprite": "F1_pickup_sheet", "width": 0.6 },
+    "page":    { "sprite": "F1_pickup_page", "width": 0.7 }
+  },
+  "shop": { "count": 3, "priceMin": 3, "priceMax": 5,
+            "tables": [[580, 470], [857, 470], [1130, 470]], "binder": [1165, 415], "binderWidth": 1.3 },
+  "pages": { "total": 7 },
+
+  // ---------------------------------------------------------------- special rooms
+  "start": {
+    // clock: image px on the back wall, clear of the top door (always in the middle of the wall)
+    "desk": [2, 0], "clock": [455, 105], "clockWidth": 1.0,
+    "hintsAt": [9, 3],             // chalk hints: first line at this cell (column, row), then one line per row step
+    "hints": ["F1_HINT_MOVE", "F1_HINT_SHOOT", "F1_HINT_ACTIVE", "F1_HINT_INTERACT", "F1_HINT_MAP"],
+    "girl": [ { "revision": 20, "key": "F1_GIRL_20" }, { "revision": 10, "key": "F1_GIRL_10" }, { "revision": 5, "key": "F1_GIRL_5" } ]
+  },
+  "corrector": { "item": [845, 400] },
+  "memory": {
+    "healHalves": 2,
+    // The drawing hangs on the painted pin board; if the room has a door in the middle of the back wall, it moves to "altAt".
+    "drawing": { "at": [862, 175], "altAt": [1500, 185], "width": 2.1 },
+    "drawings": [ { "revision": 7, "sprite": "F1_drawing_3" }, { "revision": 3, "sprite": "F1_drawing_2" }, { "revision": 1, "sprite": "F1_drawing_1" } ],
+    "caption": "F1_DRAWING_CAPTION"
+  },
+  "secret": { "item": [725, 545], "page": [2, 3], "note": [4, 1], "pageIndex": 1, "noteKey": "F1_SECRET_NOTE", "pageKey": "F1_PAGE_1" },
+  "ghostCar": { "chance": 1.0, "delay": [4.0, 10.0], "duration": 2.4 },
+  "corridor": {
+    "spawn": [0, 2], "archivist": [1600, 330], "archivistWidth": 2.4, "talkDistance": 3.2, "exitCol": 14,
+    "lines": [ "F1_ARCH_TOOK", "F1_ARCH_LEFT", "F1_ARCH_10", "F1_ARCH_5", "F1_ARCH_FIRST" ]
+  },
+  "next": { "scene": "", "title": "F1_NEXT_CHAPTER", "continued": "F1_TO_BE_CONTINUED" }
+}

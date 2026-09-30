@@ -1,0 +1,129 @@
+key,en,ru,note
+# --- Scene 1: the page ---
+PAGE_TITLE,THE PALINODE,ПАЛИНОДИЯ,handwritten title
+PAGE_THEN_SHE,...and then she...,...и тогда она...,
+PAGE_L1,"MARA DIED ON AUGUST 17, 2017.",МАРА УМЕРЛА 17 АВГУСТА 2017 ГОДА.,
+PAGE_L2,MARA DIED IN AN ACCIDENT.,МАРА ПОГИБЛА В АВАРИИ.,
+PAGE_L3,MARA WAS KILLED BY A TRUCK DRIVER.,МАРУ УБИЛ ВОДИТЕЛЬ ГРУЗОВИКА.,
+W_DRUNK,DRUNK,ПЬЯНЫЙ,red insertion
+W_INSERT_ANCHOR,TRUCK,ВОДИТЕЛЬ,the red word is inserted right before this word
+PAGE_L3_FINAL,MARA WAS KILLED BY A DRUNK TRUCK DRIVER.,МАРУ УБИЛ ПЬЯНЫЙ ВОДИТЕЛЬ ГРУЗОВИКА.,resulting line (reference)
+# --- Scene 2: phone ---
+CALLER_MARA,MARA,МАРА,caller name
+CALLER_INCOMING,incoming call,входящий вызов,
+MSG_1,Papa.,Папа.,
+MSG_2,Do you still remember where you found me?,"Ты ещё помнишь, где нашёл меня?",
+MSG_3,The last page is still there.,Последняя страница всё ещё там.,
+MSG_4,Come to the old printing house.,Приходи в старую типографию.,
+MSG_ADDRESS,"Veyl & Crane Printing, 7 Harrow Lane","Типография «Вейл и Крейн», Харроу-лейн, 7",
+PHOTO_DATE,17.08.2017,17.08.2017,same in both languages
+# --- Scene 4-6 ---
+PROMPT_OPEN,[E] Open,[E] Открыть,
+HINT_GOAL_STREET,Get to the old printing house,Доберись до старой типографии,objective hint (scene 4)
+HINT_MOVE,WASD / Arrows / Left stick — walk,WASD / стрелки / левый стик — идти,controls hint
+HINT_INTERACT,E / Gamepad A — interact,E / кнопка A — взаимодействие,controls hint
+HINT_GOAL_PRINTHOUSE,Look around the printing house,Осмотри типографию,objective hint (scene 5)
+SHEET_1,ELIAS VEYL,ЭЛИАС ВЕЙЛ,
+SHEET_2,ENTERED THE ARCHIVE,ВОШЁЛ В АРХИВ,
+SHEET_3,AT 23:41,В 23:41,
+SHEET_4,HE DOESN'T YET UNDERSTAND WHY HE CAME.,"ОН ЕЩЁ НЕ ПОНИМАЕТ, ЗАЧЕМ ПРИШЁЛ.",
+# --- Scene 7 ---
+ARCHIVE_DATE,17.08.2017 — 03:12,17.08.2017 — 03:12,same in both languages
+SUB_ARCH_01,You're back.,Ты вернулся.,VO_arch_01
+SUB_ELI_01,Have we met?,Мы знакомы?,VO_eli_01
+SUB_ARCH_02,Not in this version.,Не в этой версии.,VO_arch_02
+SUB_ELI_02,Which version?,Какой версии?,VO_eli_02
+SUB_ARCH_03,That doesn't matter yet.,Это пока неважно.,VO_arch_03
+SUB_ARCH_04,"You came for the last page, didn't you?",Ты ведь пришёл за последней страницей.,VO_arch_04
+SUB_ELI_03,For Mara.,За Марой.,VO_eli_03
+SUB_ARCH_05,No. You didn't come for her.,Нет. Ты пришёл не за ней.,VO_arch_05
+SUB_ELI_04,Then why?,Тогда зачем?,VO_eli_04
+SUB_ARCH_06,To rewrite what has already happened. Again.,"Чтобы снова изменить то, что уже произошло.",VO_arch_06
+SUB_ARCH_07,"This time, try to read it to the end.",На этот раз постарайся дочитать до конца.,VO_arch_07
+SPEAKER_ARCHIVIST,The Archivist,Архивист,
+SPEAKER_ELIAS,Elias,Элиас,
+# --- Titles ---
+TITLE,PALINODE,PALINODE,title card is never translated
+REVISION,REVISION 01,РЕВИЗИЯ 01,
+FLOOR1_TITLE,Floor I,Этаж I,
+FLOOR1_SOON,coming soon,скоро,
+FLOOR1_BACK,Return to menu,Вернуться в меню,
+# --- Menu / UI ---
+MENU_NEW,New Game,Новая игра,
+MENU_SETTINGS,Settings,Настройки,
+MENU_QUIT,Quit,Выход,
+SET_TITLE,Settings,Настройки,
+SET_TEXT_LANG,Text language,Язык текста,
+SET_VOICE_LANG,Voice language,Язык озвучки,
+SET_SUBS,Subtitles,Субтитры,
+SET_VOLUME,Master volume,Общая громкость,
+SET_BACK,Back,Назад,
+VAL_ON,On,Вкл.,
+VAL_OFF,Off,Выкл.,
+LANG_EN,English,English,
+LANG_RU,Русский,Русский,
+HINT_SKIP,Hold to skip,Удерживайте для пропуска,
+# --- Floor I: The Press ---
+F1_HINT_MOVE,WASD — walk,WASD — идти,chalk on the floor of the first room
+F1_HINT_SHOOT,Arrows — ink,Стрелки — чернила,
+F1_HINT_ACTIVE,Space — red pencil,Пробел — красный карандаш,
+F1_HINT_INTERACT,E — take,E — взять,
+F1_HINT_MAP,Tab — contents,Tab — содержание,
+F1_GIRL_5,Again?,Опять?,a neat girl's hand (revision 5+)
+F1_GIRL_10,You could just stop.,Ты мог бы просто остановиться.,revision 10+
+F1_GIRL_20,I'm still here.,Я всё ещё здесь.,revision 20+
+F1_DRAWING_CAPTION,Papa is the bravst nite,Папа самый смелый рыцырь,child's spelling mistakes are intended
+F1_SECRET_NOTE,What is written in red becomes true.,Написанное красным становится правдой.,
+F1_NOTE_TITLE,A note,Записка,
+F1_PAGE_TITLE,Original page {0}/{1},Страница оригинала {0}/{1},
+F1_PAGE_1,"She opened her notebook to read him the story. He said: ""Later, I'm thinking.""","Она открыла тетрадь, чтобы прочитать ему рассказ. Он сказал: «Потом, я думаю».",
+F1_WITNESS,Witness of Revision {0},Свидетель ревизии {0},elite enemy
+F1_BOSS_NAME,Tirazh,Тираж,
+F1_NEWS_HEADLINE,"BRIDGE CRASH, 3:12 A.M. ONE DEAD",ДТП НА МОСТУ. 3:12. ПОГИБ ОДИН ЧЕЛОВЕК,
+F1_NEWS_NAME,· · · · · · · ·,· · · · · · · ·,the name is smeared with ink (unreadable)
+F1_PROMPT_TAKE,[E] Take,[E] Взять,
+F1_PROMPT_BUY,[E] Buy — {0},[E] Купить — {0},
+F1_PROMPT_POOR,Not enough sheets,Не хватает листов,
+F1_PROMPT_DESCEND,[E] Go down,[E] Спуститься,
+F1_ARCH_TOOK,You took it again. Of course you did.,Ты снова взял его. Конечно.,
+F1_ARCH_LEFT,You left it there. That's new.,Ты оставил его. Это что-то новое.,
+F1_ARCH_10,How many more versions will you write?,Сколько ещё версий ты собираешься написать?,
+F1_ARCH_5,You came again.,Ты опять пришёл.,
+F1_ARCH_FIRST,The first chapter is always the easiest.,Первая глава всегда даётся легче всего.,
+F1_SPEAKER_ARCHIVIST,The Archivist,Архивист,
+F1_NEXT_CHAPTER,Chapter II,Глава II,
+F1_NEXT_CHAPTER_SUB,THE DRAFTS,ЧЕРНОВИКИ,
+F1_TO_BE_CONTINUED,To be continued,Продолжение следует,
+F1_DEATH_LINE,Elias was struck out by {0} on page {1}.,Элиаса вычеркнул(а) {0} на странице {1}.,
+F1_REVISION,REVISION {0},РЕВИЗИЯ {0},
+F1_ENEMY_letters,the Letters,Литеры,
+F1_ENEMY_bug,a proofreader's bug,корректорский жук,
+F1_ENEMY_blot,a Blot,Клякса,
+F1_ENEMY_compositor,the Compositor,Наборщик,
+F1_ENEMY_headlights,the Headlights,Фары,
+F1_ENEMY_boss,Tirazh,Тираж,
+F1_ENEMY_unknown,something,что-то,
+F1_PAUSE,PAUSE,ПАУЗА,
+F1_RESUME,Continue,Продолжить,
+F1_QUIT_MENU,Quit to menu,Выйти в меню,
+F1_PAGES,Original pages {0}/{1},Страницы оригинала {0}/{1},
+F1_MAP_TITLE,Contents,Содержание,
+F1_MAP_CHAPTER,Chapter I. The Press,Глава I. Типография,
+F1_ITEM_pencil,Red pencil,Красный карандаш,
+F1_ITEM_pencil_DESC,Some mistakes can't be fixed. Some can't stop being fixed.,Некоторые ошибки невозможно исправить. Некоторые — невозможно перестать исправлять.,
+F1_ITEM_typewriter,Typewriter,Пишущая машинка,
+F1_ITEM_typewriter_DESC,Faster than a pen. Easier not to think.,Быстрее пера. Проще не думать.,
+F1_ITEM_carbon,Carbon paper,Копировальная бумага,
+F1_ITEM_carbon_DESC,Every version leaves a copy.,Каждая версия оставляет копию.,
+F1_ITEM_paperclips,Paperclips,Скрепки,
+F1_ITEM_paperclips_DESC,Holds together what should have been torn apart.,"Скрепляет то, что давно пора было разорвать.",
+F1_ITEM_stamp,REJECTED stamp,Штамп «ОТКАЗАНО»,
+F1_ITEM_stamp_DESC,Forty-seven rejections. He kept every one.,Сорок семь отказов. Он хранил каждый.,
+F1_ITEM_coffee,Cold coffee,Остывший кофе,
+F1_ITEM_coffee_DESC,Cold. He forgot it hours ago.,Холодный. Он забыл о нём несколько часов назад.,
+F1_ITEM_energy,Energy drink,Энергетик,
+F1_ITEM_energy_DESC,One more can. One more chapter.,Ещё одна банка. Ещё одна глава.,
+F1_ITEM_blotter,Blotting paper,Промокашка,
+F1_ITEM_blotter_DESC,Soaks up mistakes. Not all of them.,Впитывает ошибки. Не все.,
+F1_ITEM_magnifier,Magnifying glass,Лупа,
+F1_ITEM_magnifier_DESC,The small print always matters most.,Мелкий шрифт всегда важнее.,

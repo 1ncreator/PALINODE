@@ -1,0 +1,127 @@
+{
+  // Background removal & slicing (Palinode.Editor.ArtProcessor). Paths are relative to Assets/_Game/Prologue/Art.
+  // Parameters (all optional, per image or in "defaults"):
+  //   tolerance   luminance band around the grey backdrop that seeds the flood fill
+  //   shadowDepth how much darker than the backdrop a cast shadow may be (kept as soft black alpha)
+  //   keepShadows false → shadows are removed entirely
+  //   minHole     min size (px) of an enclosed backdrop hole with strict colour match (ring of a clock hand)
+  //   pocketTol / pocketStd / pocketMin   small flat grey pockets (between fingers, in hair); pocketMin 1e9 disables
+  //   band / erode  matting band width (px) and alpha multiplier of the outermost pixel
+  //   parts       slice by connected components; sort = "x" (left→right) | "y" | "area"
+  //   hand        rotate upright, pivot in the ring centre;  pivot "bottom" → feet
+  //   tipDir      [dx, dy]: tool tip = opaque pixel furthest along this direction; pivot "tip" puts the pivot on it
+  //   extend      {"dir": [dx, dy], "px": [addRight, addBottom]}: continue a sleeve past the picture edge
+  //               (the sleeve then always leaves the camera frame); the exit point is stored as "elbow" in processed_meta.json
+  "defaults": { "tolerance": 30, "brightTol": 70,"chromaTol": 16, "shadowDepth": 80, "shadowStrength": 0.8, "shadowReach": 70, "minHole": 400, "margin": 40 },
+  "images": [
+    { "src": "Scenes/P1-02_elias.png",          "out": "P1-02_elias",        "shadowStrength": 0.5 },
+    { "src": "Scenes/P1-03_hand_pen.png",       "out": "P1-03_hand_pen",     "keepShadows": false,
+      "tipDir": [-0.55, 1], "pivot": "tip", "extend": { "dir": [1, -0.12], "px": [1400, 0] } },
+    { "src": "Scenes/P2-04_elias_back.png",     "out": "P2-04_elias_back",   "minHole": 250 },
+    { "src": "Scenes/P2-06_hand.png",           "out": "P2-06_hand",         "keepShadows": false,
+      "tipDir": [-1, -0.9], "pivot": "tip", "extend": { "dir": [1, 0.75], "px": [1100, 820] } },
+    { "src": "Scenes/P3-01_hand_redpencil.png", "out": "P3-01_hand_redpencil","keepShadows": false,
+      "tipDir": [-1, 0.35], "pivot": "tip", "extend": { "dir": [1, 0.7], "px": [1100, 800] } },
+    { "src": "Scenes/P3-04_elias_coat.png",     "out": "P3-04_elias_coat",   "minHole": 250 },
+    { "src": "Scenes/P7-01_shelves.png",        "out": "P7-01_shelves",      "keepShadows": false, "minHole": 150 },
+    { "src": "Scenes/P7-02_archivist.png",      "out": "P7-02_archivist",    "keepShadows": false, "minHole": 1500, "brightTol": 22,
+      "erase": [[[1008,546],[1050,553],[1100,563],[1140,573],[1152,582],[1152,626],[1008,626]]] },
+    { "src": "Items/PR_pen.png",       "sort": "area", "pocketMin": 1000000000, "parts": [ { "name": "PR_pen_body" }, { "name": "PR_pen_cap" } ] },
+    { "src": "Items/PR_phone.png",     "sort": "x", "pocketMin": 1000000000,    "parts": [ { "name": "PR_phone_off" }, { "name": "PR_phone_on" } ] },
+    { "src": "Items/PR_redpencil.png", "out": "PR_redpencil" },
+    { "src": "Items/PR_sheet.png",     "out": "PR_sheet", "shadowStrength": 0.6, "pocketMin": 1000000000 },
+    { "src": "Items/PR_wallclock.png", "sort": "x", "minHole": 15, "keepShadows": false, "pocketMin": 1000000000,
+      "parts": [ { "name": "PR_wallclock_face", "pivotSrc": [560, 425] }, { "name": "PR_wallclock_hour", "hand": true }, { "name": "PR_wallclock_minute", "hand": true } ] },
+    { "src": "Items/PR_watch.png",     "sort": "x", "minHole": 15, "pocketMin": 1000000000, "keepShadows": false,
+      "parts": [ { "name": "PR_watch_face", "pivotSrc": [553, 462] }, { "name": "PR_watch_hour", "hand": true, "pivotSrc": [1056, 644] }, { "name": "PR_watch_minute", "hand": true, "pivotSrc": [1183, 691] } ] },
+    { "src": "Game/G_press.png",       "sort": "x", "pocketMin": 60, "parts": [ { "name": "G_press_body", "pivot": "bottom" }, { "name": "G_press_plate", "pivot": "bottom" } ] },
+    { "src": "Game/G_door.png",        "sort": "x", "pocketMin": 1000000000, "parts": [ { "name": "G_door_closed", "pivot": "bottom" }, { "name": "G_door_ajar", "pivot": "bottom" } ] },
+    { "src": "ArtInbox/cars/car1_A.png", "out": "car1_A", "keepShadows": false, "shadowDepth": 125, "pocketMin": 1000000000, "sprayCut": { "minY": 0.4 }, "groundCut": { "line": [[0,500],[56,480],[200,590],[280,618],[839,818],[1000,790],[1339,630],[1536,630]], "margin": 4 } },
+    { "src": "ArtInbox/cars/car1_B.png", "out": "car1_B", "keepShadows": false, "shadowDepth": 125, "pocketMin": 1000000000, "sprayCut": { "minY": 0.4 }, "groundCut": { "line": [[0,480],[113,468],[200,570],[258,592],[790,790],[968,772],[1339,622],[1536,622]], "margin": 4 } },
+    { "src": "ArtInbox/cars/car2_A.png", "out": "car2_A", "keepShadows": false, "shadowDepth": 125, "pocketMin": 1000000000, "sprayCut": { "minY": 0.4 }, "groundCut": { "line": [[0,470],[97,462],[210,600],[290,634],[855,828],[1000,818],[1363,638],[1536,638]], "margin": 4 } },
+    { "src": "ArtInbox/cars/car2_B.png", "out": "car2_B", "keepShadows": false, "shadowDepth": 125, "pocketMin": 1000000000, "sprayCut": { "minY": 0.4 }, "groundCut": { "line": [[0,420],[169,412],[230,520],[282,555],[710,750],[952,796],[1331,652],[1536,652]], "margin": 4 } },
+    { "src": "ArtInbox/cars/car3_A.png", "out": "car3_A", "keepShadows": false, "shadowDepth": 125, "pocketMin": 1000000000, "sprayCut": { "minY": 0.4 }, "groundCut": { "line": [[0,480],[161,470],[250,590],[323,620],[839,790],[968,780],[1250,598],[1536,598]], "margin": 4 } },
+    { "src": "ArtInbox/cars/car3_B.png", "out": "car3_B", "keepShadows": false, "shadowDepth": 125, "pocketMin": 1000000000, "sprayCut": { "minY": 0.4 }, "groundCut": { "line": [[0,420],[258,412],[310,520],[363,560],[823,765],[919,758],[1282,605],[1536,605]], "margin": 4 } },
+    { "src": "ArtInbox/cars/car4_A.png", "out": "car4_A", "keepShadows": false, "shadowDepth": 125, "pocketMin": 1000000000, "sprayCut": { "minY": 0.4 }, "groundCut": { "line": [[0,470],[73,462],[200,590],[290,620],[871,812],[1048,790],[1363,614],[1536,614]], "margin": 4 } },
+    { "src": "ArtInbox/cars/car4_B.png", "out": "car4_B", "keepShadows": false, "shadowDepth": 125, "pocketMin": 1000000000, "sprayCut": { "minY": 0.4 }, "groundCut": { "line": [[0,390],[137,382],[200,510],[274,560],[806,772],[1000,780],[1395,645],[1536,645]], "margin": 4 } },
+    { "src": "ArtInbox/cars/truck_A.png", "out": "truck_A", "keepShadows": false, "shadowDepth": 125, "pocketMin": 1000000000 },
+    { "src": "Game/G_elias_topdown.png", "sort": "x", "minHole": 200,
+      "parts": [ { "name": "G_elias_down", "pivot": "bottom" }, { "name": "G_elias_up", "pivot": "bottom" },
+                 { "name": "G_elias_right", "pivot": "bottom" }, { "name": "G_elias_right2", "pivot": "bottom" } ] }
+  ],
+  // Deliveries from ArtInbox (read from the project root, not imported by Unity).
+  // Cars: body only — the wet spray / shadow under the body goes with the backdrop (keepShadows false, deep shadowDepth).
+  // Walk cycles: frames → background removal → one scale + common anchor (feet under the torso). See NormalizeSequence.
+  //   height         median silhouette height after normalisation (px)
+  //   scaleTolerance frames whose height differs more than this from the median are resized to it (redrawn at another size)
+  "sequences": [
+    { "out": "G_walk_down_",  "height": 760, "keepShadows": false,
+      "frames": ["ArtInbox/walk_topdown/down_01.png", "ArtInbox/walk_topdown/down_02.png", "ArtInbox/walk_topdown/down_03.png", "ArtInbox/walk_topdown/down_04.png",
+                 "ArtInbox/walk_topdown/down_05.png", "ArtInbox/walk_topdown/down_06.png", "ArtInbox/walk_topdown/down_07.png", "ArtInbox/walk_topdown/down_08.png"] },
+    { "out": "G_walk_up_",    "height": 760, "keepShadows": false,
+      "frames": ["ArtInbox/walk_topdown/up_01.png", "ArtInbox/walk_topdown/up_02.png", "ArtInbox/walk_topdown/up_03.png", "ArtInbox/walk_topdown/up_04.png",
+                 "ArtInbox/walk_topdown/up_05.png", "ArtInbox/walk_topdown/up_06.png", "ArtInbox/walk_topdown/up_07.png", "ArtInbox/walk_topdown/up_08.png"] },
+    { "out": "G_walk_right_", "height": 760, "keepShadows": false,
+      "frames": ["ArtInbox/walk_topdown/right_01.png", "ArtInbox/walk_topdown/right_02.png", "ArtInbox/walk_topdown/right_03.png", "ArtInbox/walk_topdown/right_04.png",
+                 "ArtInbox/walk_topdown/right_05.png", "ArtInbox/walk_topdown/right_06.png", "ArtInbox/walk_topdown/right_07.png", "ArtInbox/walk_topdown/right_08.png"] },
+    { "out": "P2-04_walk_",   "height": 1300, "keepShadows": false,
+      "frames": ["ArtInbox/walk_P2-04/01.png", "ArtInbox/walk_P2-04/02.png", "ArtInbox/walk_P2-04/03.png", "ArtInbox/walk_P2-04/04.png",
+                 "ArtInbox/walk_P2-04/05.png", "ArtInbox/walk_P2-04/06.png", "ArtInbox/walk_P2-04/07.png", "ArtInbox/walk_P2-04/08.png"] },
+    { "out": "P3-04_walk_",   "height": 1300, "keepShadows": false,
+      "frames": ["ArtInbox/walk_P3-04/01.png", "ArtInbox/walk_P3-04/02.png", "ArtInbox/walk_P3-04/03.png", "ArtInbox/walk_P3-04/04.png",
+                 "ArtInbox/walk_P3-04/05.png", "ArtInbox/walk_P3-04/06.png", "ArtInbox/walk_P3-04/07.png", "ArtInbox/walk_P3-04/08.png"] }
+  ],
+  // Apartment door (P3-04): only the doorway of the redrawn frames is used, warped so that its opening lands exactly on
+  // the closed door of the original P3-04_door_bg (srcQuad = opening in the redrawn frame, dstQuad = door in the original).
+  "overlays": [
+    { "src": "ArtInbox/door_P3-04/door_30.png", "out": "P3-04_door_30", "size": [1536, 1024], "feather": 16,
+      "srcQuad": [[905, 112], [1242, 112], [1242, 742], [905, 742]], "dstQuad": [[912, 108], [1245, 112], [1245, 752], [912, 752]],
+      "mask": [[880, 92], [1262, 92], [1262, 744], [1285, 792], [870, 792], [880, 744]] },
+    { "src": "ArtInbox/door_P3-04/door_60.png", "out": "P3-04_door_60", "size": [1536, 1024], "feather": 16,
+      "srcQuad": [[958, 128], [1195, 128], [1195, 727], [958, 727]], "dstQuad": [[912, 108], [1245, 112], [1245, 752], [912, 752]],
+      "mask": [[812, 80], [1212, 80], [1212, 730], [1232, 790], [826, 790], [812, 760]] },
+    { "src": "ArtInbox/door_P3-04/door_90.png", "out": "P3-04_door_90", "size": [1536, 1024], "feather": 16,
+      "srcQuad": [[940, 135], [1180, 135], [1180, 727], [940, 727]], "dstQuad": [[912, 108], [1245, 112], [1245, 752], [912, 752]],
+      "mask": [[812, 88], [1196, 88], [1196, 730], [1216, 790], [826, 790], [812, 760]] }
+  ],
+  // Brightened copy of the (painted very dark) print house map; darkness is then produced by 2D lighting.
+  "levels": [
+    { "src": "Game/G_printhouse.png", "out": "G_printhouse_albedo", "gain": 2.6, "gamma": 0.9 }
+  ],
+  "warps": [
+    { "src": "Scenes/P2-05_photo.png", "out": "P2-05_print",
+      "quad": [[40, 75], [1418, 12], [1482, 900], [120, 1003]], "size": [1380, 930],
+      "crops": [ { "out": "P2-05_print_portrait", "rect": [482, 35, 475, 860] } ] },
+    // The PALINODE door is painted with a vertical shear (its plaque slopes by -0.153): un-shear it so it stands
+    // flat against the frontal back wall of the print house. keepAlpha: warp a transparent sprite.
+    { "src": "Processed/G_door_closed.png", "out": "G_door_front_closed", "keepAlpha": true, "pivot": "bottom",
+      "quad": [[0, 0], [777, -118.9], [777, 1022.1], [0, 1141]], "size": [777, 1141], "crops": [] },
+    { "src": "Processed/G_door_ajar.png", "out": "G_door_front_ajar", "keepAlpha": true, "pivot": "bottom",
+      "quad": [[0, 0], [737, -112.8], [737, 1024.2], [0, 1137]], "size": [737, 1137], "crops": [] }
+  ],
+  // Occluders: objects cut out of the painted maps (poly = outline in map px, base = where the object stands).
+  // The level places each at its painted position and depth-sorts it against the player by the base Y.
+  "cutouts": [
+    { "src": "Game/G_street.png", "items": [
+      { "out": "occ_street_lamp1", "base": [146, 303], "poly": [[118,28],[152,28],[152,78],[150,80],[151,298],[160,306],[132,306],[140,298],[139,80],[118,78]] },
+      { "out": "occ_street_lamp2", "base": [273, 330], "poly": [[252,145],[292,145],[292,200],[276,210],[276,298],[287,305],[288,334],[258,334],[260,305],[266,298],[266,210],[252,200]] },
+      { "out": "occ_street_lamp3", "base": [791, 467], "poly": [[770,255],[810,255],[810,322],[797,330],[797,438],[808,445],[810,470],[772,470],[775,445],[783,438],[783,330],[770,322]] },
+      { "out": "occ_street_lamp4", "base": [1255, 587], "poly": [[1231,360],[1272,360],[1272,420],[1260,428],[1260,545],[1272,552],[1274,590],[1236,590],[1238,552],[1246,545],[1246,428],[1231,420]] },
+      { "out": "occ_street_bollard_a", "base": [244, 322], "poly": [[235,260],[252,260],[253,324],[234,324]] },
+      { "out": "occ_street_bollard_b", "base": [455, 383], "poly": [[445,316],[466,316],[466,386],[445,386]] },
+      { "out": "occ_street_bollard_c", "base": [767, 468], "poly": [[757,395],[777,395],[778,470],[757,470]] },
+      { "out": "occ_street_bollard_d", "base": [910, 502], "poly": [[900,433],[921,433],[921,505],[900,505]] },
+      { "out": "occ_street_bollard_e", "base": [985, 522], "poly": [[975,452],[996,452],[996,526],[975,526]] },
+      { "out": "occ_street_bollard_f", "base": [1213, 578], "poly": [[1202,512],[1224,512],[1224,582],[1202,582]] },
+      { "out": "occ_street_trafficlight", "base": [1462, 647], "poly": [[1436,495],[1494,495],[1494,556],[1472,560],[1470,625],[1480,632],[1478,650],[1446,650],[1448,632],[1455,625],[1455,560],[1436,556]] },
+      { "out": "occ_street_tree", "base": [543, 386], "poly": [[528,195],[556,195],[560,388],[526,388]] },
+      { "out": "occ_street_car_left", "base": [140, 490], "poly": [[0,345],[40,330],[175,335],[240,365],[272,400],[275,470],[250,495],[0,495]] },
+      { "out": "occ_street_car_right", "base": [1780, 765], "poly": [[1583,655],[1600,630],[1720,585],[1860,588],[1983,612],[1983,793],[1880,793],[1650,735],[1590,705]] },
+      { "out": "occ_street_pillar_l", "base": [1541, 492], "poly": [[1518,398],[1564,398],[1564,495],[1518,495]] },
+      { "out": "occ_street_pillar_r", "base": [1747, 562], "poly": [[1722,452],[1772,452],[1772,565],[1722,565]] }
+    ] },
+    { "src": "Processed/G_printhouse_albedo.png", "items": [
+      { "out": "occ_print_drawers", "base": [1430, 340], "poly": [[1380,238],[1482,238],[1484,342],[1380,346]] }
+    ] }
+  ]
+}

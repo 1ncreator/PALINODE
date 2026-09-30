@@ -1,0 +1,40 @@
+{
+  // Offline audio recipes (Palinode.Editor.AudioTools). Output: Assets/_Game/Prologue/Audio/Processed/<out>.wav
+  // SFX ("clips", mono):
+  //   drive          tanh saturation amount (adds harmonics so low buzz is audible on small speakers)
+  //   rattle         synthetic "phone buzzing on a wooden desk" layer: rate (Hz), level (relative to source peak), decayMs
+  //   gainDb / normalizePeak (dBFS)
+  // Music ("music", stereo kept; sources are the Suno deliveries in ArtInbox/music):
+  //   start / length           explicit cut (s)
+  //   alignPeak {at, window}   put the loudest passage at "at" s from the start of the cue
+  //   endAtLastLoud {length, tail}   cut that ends on the last loud chord (title)
+  //   stinger {length}         pick the hit with the strongest sub boom
+  //   loop {crossfade}         seamless loop (material after the loop end is cross-faded into the head)
+  //   fadeIn / fadeOut, normalizeLufs
+  "clips": [
+    { "src": "SFX/SFX_phone_vibrate.wav", "out": "SFX_phone_vibrate_desk",
+      "drive": 2.2, "rattle": { "rate": 165, "level": 0.55, "decayMs": 1.4 }, "normalizePeak": -3 },
+    { "src": "SFX/SFX_clock_tick.wav", "out": "SFX_clock_tick_n", "normalizePeak": -3 },
+    { "src": "SFX/SFX_pen_write.wav", "out": "SFX_pen_write_n", "drive": 3.0, "normalizePeak": -3 }
+  ],
+  "music": [
+    // Main theme: replaces MUS_prologue (scene 3 up to the red dot, anything without its own cue).
+    { "src": "ArtInbox/music/MUS_theme_palinode.wav", "out": "MUS_theme_palinode", "start": 0, "length": 112, "fadeOut": 6, "normalizeLufs": -18 },
+    { "src": "ArtInbox/music/MUS_menu.wav", "out": "MUS_menu", "start": 4, "length": 116, "loop": { "crossfade": 5 }, "normalizeLufs": -18 },
+    // Scene 1 (~50 s from P1-02): quiet start, slowly thickening.
+    { "src": "ArtInbox/music/MUS_scene1_night.wav", "out": "MUS_scene1_night", "start": 0, "length": 80, "fadeOut": 6, "normalizeLufs": -18 },
+    // Scene 2: the first big swell of the source (≈ 42 s) lands on the photo (P2-05 ≈ 28 s after the chapter starts).
+    { "src": "ArtInbox/music/MUS_scene2_call.wav", "out": "MUS_scene2_call", "start": 14, "length": 55, "fadeIn": 1.5, "fadeOut": 5, "normalizeLufs": -18 },
+    // Scene 3 after the silence: 03:12, relief, leaving home.
+    { "src": "ArtInbox/music/MUS_scene3_after.wav", "out": "MUS_scene3_after", "start": 0, "length": 40, "fadeOut": 5, "normalizeLufs": -18 },
+    { "src": "ArtInbox/music/MUS_street.wav", "out": "MUS_street", "start": 8, "length": 120, "loop": { "crossfade": 5 }, "normalizeLufs": -18 },
+    // Print house: calm loop for scene 5, the tense ending for scene 6 at the PALINODE door.
+    { "src": "ArtInbox/music/MUS_printhouse.wav", "out": "MUS_printhouse", "start": 4, "length": 96, "loop": { "crossfade": 5 }, "normalizeLufs": -18 },
+    { "src": "ArtInbox/music/MUS_printhouse.wav", "out": "MUS_printhouse_door", "start": 140, "length": 44, "loop": { "crossfade": 3 }, "normalizeLufs": -18 },
+    { "src": "ArtInbox/music/MUS_scene7_archivist.wav", "out": "MUS_scene7_archivist", "start": 0, "length": 110, "fadeOut": 6, "normalizeLufs": -18 },
+    // Title card (~13 s): the final statement ending on the decisive last chord.
+    { "src": "ArtInbox/music/MUS_title.wav", "out": "MUS_title", "endAtLastLoud": { "length": 14, "tail": 3, "db": 5 }, "fadeIn": 1.0, "fadeOut": 2.5, "normalizeLufs": -16 },
+    // Red-dot stinger: the hit with the strongest sub boom.
+    { "src": "ArtInbox/music/MUS_stingers.wav", "out": "MUS_sting_dot", "stinger": { "length": 4.5 }, "fadeIn": 0.005, "fadeOut": 1.5, "normalizeLufs": -16 }
+  ]
+}

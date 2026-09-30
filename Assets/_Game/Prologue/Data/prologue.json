@@ -1,0 +1,876 @@
+// PALINODE — prologue script. Everything the player sees and hears in the prologue is described here.
+//
+// Units: "pos"/camera x,y are 1920×1080 reference pixels from the screen centre (y up);
+//        "px" are pixels of the parent layer's image (top-left origin); times are seconds.
+// Layer types: sprite (default), rect, page, phone, clock, text, light, rain, dust, shaderQuad, glow, empty.
+// Every step: {"type": ...}; add "async": true to let the next step start immediately, "delay": s to wait first.
+// Full list of step types: see Assets/_Game/Scripts/Cutscene/Steps.cs.
+{
+  "menuScene": "Menu",
+  "menu": { "music": { "clip": "MUS_menu", "lufs": -22, "fade": 3.0 } },
+  "exitScene": "Floor1",   // Floor I "The Press" (Floor1/Data/floor1.json)
+
+  // Mix. Any sfx/loop/music/vo step (and chapter ambience/music) may use "lufs": <target> instead of "volume":
+  // the volume is then computed from the measured loudness of the clip (Data/audio_levels.json).
+  //   voiceLufs     target loudness of every voice line
+  //   voiceDuckDb   automatic dip of music + ambience while a voice line plays (side-chain)
+  "mix": { "voiceLufs": -22, "voiceDuckDb": -7, "voiceDuckAttack": 0.15, "voiceDuckRelease": 0.7 },
+  "flow": ["scene1", "scene2", "scene3", "scene4", "scene5", "scene6", "scene7", "title"],
+
+  "chapters": {
+
+    // ===================================================================== SCENE 1 — the study, ~50 s
+    // Music (Suno cues cut/levelled by Data/audio_processing.json): MUS_scene1_night enters under P1-02 very quietly and
+    // rises with each rewritten line (targets in LUFS; volumes are computed from Data/audio_levels.json).
+    // "loop": false = a through-composed cue that ends on its own fade-out.
+    "scene1": {
+      "scene": "Prologue_Cinematic",
+      "ambience": [ { "id": "tick", "clip": "SFX_clock_tick_n", "lufs": -41, "fade": 1.0 } ],
+      "imprint": 0,
+      "steps": [
+        // P1-01 — 5 s of black (storyboard): ticking, paper, a pen scratching somewhere in the dark.
+        { "type": "wait", "time": 1.0 },
+        { "type": "sfx", "clip": "SFX_paper_rustle", "lufs": -37 },
+        { "type": "wait", "time": 1.4 },
+        { "type": "sfx", "clip": "SFX_pen_write_n", "id": "pen0", "lufs": -38 },
+        { "type": "wait", "time": 2.6 },
+        { "type": "stopSfx", "id": "pen0", "fade": 0.8 },
+
+        // P1-02 — Elias at the desk, slow push-in (8 s), hand-held drift, lamp flicker, dust in the beam.
+        { "type": "shot", "layers": [
+          { "id": "bg", "sprite": "P1-02_bg", "depth": 0.92 },
+          { "id": "wallclock", "type": "clock", "parent": "bg", "px": [575, 122], "order": 2,
+            "hour": "PR_wallclock_hour", "minute": "PR_wallclock_minute", "hourLen": 30, "minuteLen": 45,
+            "squash": [0.84, 1.0], "time": "03:08", "handTint": "#b8aa98" },
+          { "id": "rainOutside", "type": "rain", "parent": "bg", "px": [1226, 250], "size": [620, 500], "order": 1,
+            "rate": 220, "speed": 5.5, "angle": 5, "length": 0.22, "width": 0.7, "color": "#aab6cc55" },
+          { "id": "rainGlass", "type": "shaderQuad", "shader": "RainGlass", "parent": "bg", "px": [1226, 250], "size": [620, 500],
+            "order": 3, "color": "#ffffff99", "props": { "_Density": 3.2, "_Speed": 0.25, "_Haze": 0.03 } },
+          { "id": "elias", "sprite": "P1-02_elias", "parent": "bg", "px": [726, 645], "scale": 0.67, "order": 5 },
+          { "id": "lamp", "type": "light", "parent": "bg", "px": [700, 402], "order": 6,
+            "color": "#ffc98a", "intensity": 0.55, "radius": 460, "falloff": 0.55, "flicker": 0.12 },
+          { "id": "lampGlow", "type": "glow", "parent": "bg", "px": [700, 404], "size": [170, 110], "order": 4, "color": "#ffd9a050" },
+          { "id": "dust", "type": "dust", "parent": "bg", "px": [640, 470], "size": [260, 200], "order": 8, "rate": 6, "sizeMul": 1.8, "color": "#ffdcaa26" }
+        ] },
+        { "type": "handheld", "px": 5, "rot": 0.18, "speed": 0.3 },
+        { "type": "loop", "id": "rain", "clip": "SFX_rain_window", "lufs": -37, "fade": 3.0 },
+        { "type": "music", "clip": "MUS_scene1_night", "loop": false, "lufs": -28, "fade": 7.0 },
+        { "type": "fade", "to": "clear", "duration": 2.5, "async": true },
+        { "type": "camera", "zoom": 1.12, "x": -60, "y": 35, "duration": 8.0, "async": true },
+        { "type": "wait", "time": 3.2 },
+        { "type": "flicker", "light": "lamp", "duration": 0.9, "strength": 0.55, "async": true },
+        { "type": "wait", "time": 2.2 },
+        { "type": "marker", "id": "P1-02" },
+        { "type": "wait", "time": 2.6 },
+
+        // P1-03 — the page. The hand enters from under the frame edge; write → pause → strike, three times.
+        // The camera follows the line being written (close → closer), cutaways: tired face, the wall clock.
+        { "type": "shot", "fade": 1.0, "layers": [
+          { "id": "desk", "sprite": "P1-03_desk" },
+          { "id": "page", "type": "page", "parent": "desk", "px": [733, 512], "rot": 2.0, "size": [480, 580],
+            "top": 62, "left": 30, "lineHeight": 66, "fontPx": 40, "order": 2, "font": "hand_bad",
+            "ink": { "pressure": 0.14, "bleed": 0.07, "bleedAlpha": 0.22, "rim": 0.35 } },
+          { "id": "hand", "sprite": "P1-03_hand_pen", "parent": "desk", "px": [1010, 880], "scale": 0.44, "rig": true,
+            "enter": [520, 360], "enterTime": 1.4, "order": 10 },
+          { "id": "deskLamp", "type": "light", "parent": "desk", "px": [330, 150], "color": "#ffc98a", "intensity": 0.35, "radius": 700, "falloff": 0.7, "flicker": 0.06 },
+          { "id": "deskDust", "type": "dust", "parent": "desk", "px": [520, 330], "size": [600, 420], "order": 20, "rate": 5, "sizeMul": 1.4, "color": "#ffdcaa1e" }
+        ], "camera": { "zoom": 1.0, "x": -40, "y": 60 } },
+        { "type": "musicLevel", "lufs": -26, "duration": 4 },
+        { "type": "camera", "zoom": 1.14, "x": -40, "y": 190, "duration": 3.0, "ease": "inOutSine", "async": true },
+        { "type": "handTo", "hand": "hand", "page": "page", "line": 0, "offset": [150, -20], "duration": 1.4, "smooth": 0.35 },
+        { "type": "sfx", "clip": "SFX_pen_write_n", "id": "pen", "lufs": -35 },
+        { "type": "marker", "id": "seq_hand_title|crop=520,160,880,495|n=12|dt=0.08", "delay": 0.8, "async": true },
+        { "type": "write", "page": "page", "line": 0, "key": "PAGE_TITLE", "align": "center", "fontScale": 1.3, "cps": 8, "hand": "hand" },
+        { "type": "write", "page": "page", "line": 1, "key": "PAGE_THEN_SHE", "cps": 9, "hand": "hand" },
+        { "type": "stopSfx", "id": "pen", "fade": 0.3 },
+        { "type": "wait", "time": 1.0 },
+        { "type": "strike", "page": "page", "line": 1, "duration": 0.6, "hand": "hand", "sfx": "SFX_pen_strike", "lufs": -30 },
+        { "type": "camera", "zoom": 1.2, "x": -30, "y": 140, "duration": 2.0, "async": true },
+        { "type": "wait", "time": 0.6 },
+
+        // 1) MARA DIED ON AUGUST 17, 2017.
+        { "type": "sfx", "clip": "SFX_pen_write_n", "id": "pen", "lufs": -35 },
+        { "type": "marker", "id": "seq_hand_write|crop=520,300,880,495|n=12|dt=0.08", "delay": 1.0, "async": true },
+        { "type": "write", "page": "page", "line": 2, "key": "PAGE_L1", "cps": 11, "hand": "hand" },
+        { "type": "stopSfx", "id": "pen", "fade": 0.3 },
+        { "type": "wait", "time": 1.5 },
+        { "type": "show", "fade": 0.35, "layer": { "id": "tiredInsert", "sprite": "P1-04_face_tired", "order": 50, "scale": 1.04 } },
+        { "type": "move", "id": "tiredInsert", "scaleMul": 1.04, "duration": 2.5, "async": true },
+        { "type": "wait", "time": 2.5 },
+        { "type": "hide", "id": "tiredInsert", "fade": 0.35 },
+        { "type": "marker", "id": "seq_hand_strike|crop=520,300,880,495|n=10|dt=0.08", "delay": 0.3, "async": true },
+        { "type": "strike", "page": "page", "line": 2, "duration": 0.75, "hand": "hand", "sfx": "SFX_pen_strike", "lufs": -30 },
+        { "type": "camera", "zoom": 1.22, "x": -30, "y": 100, "duration": 2.0, "async": true },
+        { "type": "musicLevel", "lufs": -24, "duration": 3 },
+        { "type": "wait", "time": 0.5 },
+
+        // 2) MARA DIED IN AN ACCIDENT.
+        { "type": "sfx", "clip": "SFX_pen_write_n", "id": "pen", "lufs": -35 },
+        { "type": "write", "page": "page", "line": 3, "key": "PAGE_L2", "cps": 11, "hand": "hand" },
+        { "type": "stopSfx", "id": "pen", "fade": 0.3 },
+        // Cutaway to the wall clock: 03:09, the tick in the foreground.
+        { "type": "show", "fade": 0.25, "layers": [
+          { "id": "clockInsert", "sprite": "P1-02_bg", "scale": 3.0, "pos": [723, -1462], "order": 60 },
+          { "id": "clockInsertHands", "type": "clock", "parent": "clockInsert", "px": [575, 122], "order": 61,
+            "hour": "PR_wallclock_hour", "minute": "PR_wallclock_minute", "hourLen": 30, "minuteLen": 45,
+            "squash": [0.84, 1.0], "time": "03:09", "handTint": "#b8aa98" }
+        ] },
+        { "type": "loopVolume", "id": "tick", "clip": "SFX_clock_tick_n", "lufs": -33, "duration": 0.3 },
+        { "type": "move", "id": "clockInsert", "scaleMul": 1.03, "duration": 1.5, "async": true },
+        { "type": "wait", "time": 1.3 },
+        { "type": "hide", "ids": ["clockInsert"], "fade": 0.25 },
+        { "type": "loopVolume", "id": "tick", "clip": "SFX_clock_tick_n", "lufs": -41, "duration": 0.6 },
+        { "type": "strike", "page": "page", "line": 3, "duration": 0.7, "hand": "hand", "sfx": "SFX_pen_strike", "lufs": -30 },
+        { "type": "camera", "zoom": 1.26, "x": -30, "y": 60, "duration": 2.0, "async": true },
+        { "type": "musicLevel", "lufs": -22, "duration": 3 },
+        { "type": "wait", "time": 0.5 },
+
+        // 3) MARA WAS KILLED BY A TRUCK DRIVER. — not struck
+        { "type": "sfx", "clip": "SFX_pen_write_n", "id": "pen", "lufs": -35 },
+        { "type": "write", "page": "page", "line": 4, "key": "PAGE_L3", "cps": 11, "hand": "hand" },
+        { "type": "stopSfx", "id": "pen", "fade": 0.3 },
+        { "type": "camera", "zoom": 1.1, "x": -40, "y": 90, "duration": 2.2, "async": true },
+        { "type": "wait", "time": 1.5 },
+        { "type": "handTo", "hand": "hand", "layer": "desk", "px": [1060, 900], "duration": 1.2, "smooth": 0.45 },
+        { "type": "marker", "id": "P1-03_lines" },
+        { "type": "wait", "time": 0.6 },
+
+        // P1-04 — the chair creaks, tiredness gives way to relief; the music opens up.
+        { "type": "sfx", "clip": "SFX_chair_creak", "lufs": -27 },
+        { "type": "shot", "fade": 0.8, "layers": [ { "id": "faceTired", "sprite": "P1-04_face_tired" } ], "camera": { "zoom": 1.0 } },
+        { "type": "musicLevel", "lufs": -19, "duration": 3 },
+        { "type": "camera", "zoom": 1.07, "y": 20, "duration": 5.0, "async": true },
+        { "type": "wait", "time": 0.8 },
+        { "type": "show", "fade": 2.0, "layer": { "id": "faceRelief", "sprite": "P1-04_face_relief", "order": 2 } },
+        { "type": "marker", "id": "P1-04" },
+        { "type": "wait", "time": 1.6 },
+        { "type": "fade", "to": "black", "duration": 1.2 }
+      ]
+    },
+
+    // ===================================================================== SCENE 2 — the call and the photo, ~42 s
+    "scene2": {
+      "scene": "Prologue_Cinematic",
+      "ambience": [
+        { "id": "tick", "clip": "SFX_clock_tick_n", "lufs": -41 },
+        { "id": "rain", "clip": "SFX_rain_window", "lufs": -37 }
+      ],
+      "music": { "clip": "MUS_scene2_call", "loop": false, "lufs": -26, "fade": 2.0 },   // its first swell is cut to land on the photo (P2-05)
+      "imprint": 0,
+      "steps": [
+        // P2-01 — the phone on the desk lights up: MARA (6 s). The vibration is the loudest thing in the room.
+        { "type": "shot", "layers": [
+          { "id": "desk", "sprite": "P1-03_desk" },
+          { "id": "page", "type": "page", "parent": "desk", "px": [733, 512], "rot": 2.0, "size": [480, 580],
+            "top": 62, "left": 30, "lineHeight": 66, "fontPx": 40, "order": 2, "font": "hand_bad" },
+          { "id": "phone", "sprite": "PR_phone_on", "parent": "desk", "px": [1175, 585], "scale": 0.36, "rot": -6, "order": 6 },
+          { "id": "call", "type": "phone", "parent": "phone", "px": [376, 370], "rot": 30.5, "size": [255, 520], "fontPx": 26, "order": 7 },
+          { "id": "screenLight", "type": "light", "parent": "phone", "px": [376, 370], "color": "#a8c2ff", "intensity": 0.95, "radius": 1500, "falloff": 0.75 },
+          { "id": "deskLamp", "type": "light", "parent": "desk", "px": [330, 150], "color": "#ffc98a", "intensity": 0.25, "radius": 700, "falloff": 0.7 }
+        ], "camera": { "zoom": 1.0, "x": -60, "y": 40 } },
+        { "type": "handheld", "px": 4, "rot": 0.15, "speed": 0.3 },
+        { "type": "preset", "page": "page", "line": 0, "key": "PAGE_TITLE", "align": "center", "fontScale": 1.3 },
+        { "type": "preset", "page": "page", "line": 1, "key": "PAGE_THEN_SHE", "struck": true },
+        { "type": "preset", "page": "page", "line": 2, "key": "PAGE_L1", "struck": true },
+        { "type": "preset", "page": "page", "line": 3, "key": "PAGE_L2", "struck": true },
+        { "type": "preset", "page": "page", "line": 4, "key": "PAGE_L3" },
+        { "type": "globalLight", "intensity": 0.75 },
+        { "type": "phoneCall", "phone": "call", "key": "CALLER_MARA", "subKey": "CALLER_INCOMING", "async": true },
+        { "type": "fade", "to": "clear", "duration": 1.2, "async": true },
+        { "type": "camera", "zoom": 1.16, "x": 120, "y": -20, "duration": 6.0, "async": true },
+        { "type": "wait", "time": 0.8 },
+        // While it buzzes everything else steps back (duck), so the buzz is heard even on laptop speakers.
+        { "type": "duck", "level": 0.35, "duration": 0.15 },
+        { "type": "sfx", "clip": "SFX_phone_vibrate_desk", "lufs": -24 },
+        { "type": "mix", "id": "vibrate_1", "delay": 0.8, "async": true },
+        { "type": "vibrate", "id": "phone", "duration": 1.1, "amplitude": 5 },
+        { "type": "wait", "time": 0.7 },
+        { "type": "sfx", "clip": "SFX_phone_vibrate_desk", "lufs": -24 },
+        { "type": "vibrate", "id": "phone", "duration": 1.1, "amplitude": 5 },
+        { "type": "marker", "id": "P2-01" },
+        { "type": "duck", "level": 0.6, "duration": 0.8 },
+        { "type": "wait", "time": 1.4 },
+
+        // P2-02 — his face in the cold light (4 s)
+        { "type": "shot", "fade": 0.5, "layers": [ { "id": "face", "sprite": "P2-02_face_phone" } ] },
+        { "type": "globalLight", "intensity": 1.0 },
+        { "type": "duck", "level": 1.0, "duration": 1.5 },
+        { "type": "musicLevel", "lufs": -24, "duration": 3 },
+        { "type": "camera", "zoom": 1.08, "y": 20, "duration": 4.0, "async": true },
+        { "type": "wait", "time": 1.6 },
+        { "type": "marker", "id": "P2-02" },
+        { "type": "wait", "time": 2.0 },
+
+        // P2-03 — messages, one by one (~10 s). The music rises with each message.
+        { "type": "shot", "fade": 0.4, "layers": [
+          { "id": "hp", "sprite": "P2-03_hand_phone" },
+          { "id": "chat", "type": "phone", "parent": "hp", "px": [801, 466], "rot": -12.5, "size": [146, 386], "fontPx": 13, "order": 3 }
+        ], "camera": { "x": 40, "y": 52, "zoom": 1.55 } },
+        { "type": "phoneHeader", "phone": "chat", "key": "CALLER_MARA" },
+        { "type": "camera", "x": 40, "y": 60, "zoom": 1.8, "duration": 10.0, "async": true },
+        { "type": "wait", "time": 1.0 },
+        { "type": "phoneMessage", "phone": "chat", "key": "MSG_1", "sfx": "SFX_phone_message", "lufs": -26 },
+        { "type": "musicLevel", "lufs": -22, "duration": 2 },
+        { "type": "wait", "time": 2.2 },
+        { "type": "phoneMessage", "phone": "chat", "key": "MSG_2", "sfx": "SFX_phone_message", "lufs": -26 },
+        { "type": "musicLevel", "lufs": -20, "duration": 3 },
+        { "type": "shake", "amplitude": 2, "duration": 0.35, "async": true },
+        { "type": "wait", "time": 3.0 },
+        { "type": "phoneMessage", "phone": "chat", "key": "MSG_3", "sfx": "SFX_phone_message", "lufs": -26 },
+        { "type": "wait", "time": 1.2 },
+        { "type": "marker", "id": "P2-03" },
+        { "type": "wait", "time": 1.2 },
+
+        // P2-04 — the wall: the empty frame now holds the photo; he walks up to it. Clock at 03:10.
+        // Walk: 8-frame cycle (ArtInbox/walk_P2-04), entering from the right and shrinking with depth towards the frame;
+        // it slows down with the ease and stops on a near-standing frame ("walk" step, see Steps.cs).
+        { "type": "shot", "fade": 1.0, "layers": [
+          { "id": "wall", "sprite": "P2-04_wall" },
+          { "id": "framePhoto", "sprite": "P2-05_print_portrait", "parent": "wall", "px": [877, 439], "scale": 0.324, "order": 2, "tint": "#8f857a" },
+          { "id": "wallclock", "type": "clock", "parent": "wall", "px": [1335, 215], "order": 3,
+            "hour": "PR_wallclock_hour", "minute": "PR_wallclock_minute", "hourLen": 72, "minuteLen": 108,
+            "squash": [0.93, 1.0], "time": "03:10", "handTint": "#c8baa6" },
+          { "id": "eliasBack", "sprite": "P2-04_walk_01", "parent": "wall", "px": [1760, 1450], "scale": 0.8, "order": 8 },
+          { "id": "warm", "type": "light", "parent": "wall", "px": [60, 600], "color": "#ffbe7a", "intensity": 0.35, "radius": 900, "falloff": 0.8 }
+        ] },
+        { "type": "camera", "zoom": 1.08, "x": 40, "duration": 6.0, "async": true },
+        { "type": "marker", "id": "P2-04", "delay": 1.8, "async": true },
+        { "type": "marker", "id": "seq_P2-04_walk|crop=480,0,1440,1080|n=12|dt=0.08", "delay": 2.2, "async": true },
+        { "type": "walk", "id": "eliasBack", "frames": { "prefix": "P2-04_walk_", "count": 8, "idle": 5, "plants": [3, 7] },
+          "px": [1150, 1290], "scale": 0.7, "perspective": true, "duration": 4.2, "ease": "outSine", "cycleTime": 1.15, "blend": 0.35 },
+        { "type": "wait", "time": 1.2 },
+
+        // P2-05 — the photo, slow push (4 s): the musical peak of the scene.
+        { "type": "shot", "fade": 0.8, "layers": [ { "id": "photo", "sprite": "P2-05_photo" } ] },
+        { "type": "musicLevel", "lufs": -18, "duration": 3 },
+        { "type": "marker", "id": "P2-05", "delay": 2.0, "async": true },
+        { "type": "camera", "zoom": 1.16, "x": 30, "y": 40, "duration": 4.0, "ease": "inOutSine" },
+
+        // P2-06 — the back of the photo: a date; his finger follows it. Then the phone buzzes again.
+        { "type": "sfx", "clip": "SFX_photo_flip", "lufs": -28 },
+        { "type": "shot", "fade": 0.25, "layers": [
+          { "id": "back", "sprite": "P2-06_photo_back" },
+          { "id": "date", "type": "page", "parent": "back", "px": [770, 600], "rot": 3.5, "size": [760, 240],
+            "top": 110, "left": 0, "lineHeight": 140, "fontPx": 104, "color": "#2b2521d8", "order": 2, "font": "hand_bad" },
+          { "id": "finger", "sprite": "P2-06_hand", "parent": "back", "px": [1045, 897], "scale": 0.72, "rig": true,
+            "enter": [420, 380], "enterTime": 1.2, "liftPx": 6, "shadowAlpha": 0.28, "order": 5 }
+        ] },
+        { "type": "musicLevel", "lufs": -21, "duration": 2 },
+        { "type": "preset", "page": "date", "line": 0, "key": "PHOTO_DATE", "align": "center" },
+        { "type": "camera", "zoom": 1.08, "x": -20, "duration": 7.0, "async": true },
+        { "type": "handTo", "hand": "finger", "page": "date", "line": 0, "at": "start", "offset": [-10, -30], "duration": 1.6, "smooth": 0.6, "contact": true },
+        { "type": "handTo", "hand": "finger", "page": "date", "line": 0, "at": "end", "offset": [0, -30], "duration": 3.2, "smooth": 1.1 },
+        { "type": "marker", "id": "P2-06" },
+        { "type": "duck", "level": 0.35, "duration": 0.15 },
+        { "type": "sfx", "clip": "SFX_phone_vibrate_desk", "lufs": -24 },
+        { "type": "mix", "id": "vibrate_2", "delay": 0.6, "async": true },
+        { "type": "wait", "time": 0.8 },
+        { "type": "shot", "fade": 0.4, "layers": [
+          { "id": "hp", "sprite": "P2-03_hand_phone" },
+          { "id": "chat", "type": "phone", "parent": "hp", "px": [801, 466], "rot": -12.5, "size": [146, 386], "fontPx": 13, "order": 3 }
+        ], "camera": { "x": 40, "y": 60, "zoom": 1.8 } },
+        { "type": "duck", "level": 1.0, "duration": 1.0 },
+        { "type": "phoneHeader", "phone": "chat", "key": "CALLER_MARA" },
+        { "type": "phoneMessage", "phone": "chat", "key": "MSG_1", "async": true },
+        { "type": "phoneMessage", "phone": "chat", "key": "MSG_2", "async": true },
+        { "type": "phoneMessage", "phone": "chat", "key": "MSG_3" },
+        { "type": "camera", "x": 40, "y": 40, "zoom": 1.95, "duration": 5.0, "async": true },
+        { "type": "wait", "time": 0.8 },
+        { "type": "phoneMessage", "phone": "chat", "key": "MSG_4", "sfx": "SFX_phone_message", "lufs": -26 },
+        { "type": "wait", "time": 1.4 },
+        { "type": "phoneMessage", "phone": "chat", "key": "MSG_ADDRESS", "accent": true, "sfx": "SFX_phone_message", "lufs": -26 },
+        { "type": "musicLevel", "lufs": -20, "duration": 2 },
+        { "type": "marker", "id": "P2-06_address" },
+        { "type": "wait", "time": 2.4 },
+        { "type": "fade", "to": "black", "duration": 1.2 }
+      ]
+    },
+
+    // ===================================================================== SCENE 3 — the red pencil and 3:12, ~26 s
+    "scene3": {
+      "scene": "Prologue_Cinematic",
+      "ambience": [
+        { "id": "tick", "clip": "SFX_clock_tick_n", "lufs": -41 },
+        { "id": "rain", "clip": "SFX_rain_window", "lufs": -37 }
+      ],
+      "music": { "clip": "MUS_theme_palinode", "loop": false, "lufs": -23, "fade": 2.0 },
+      "imprint": 0,
+      "steps": [
+        // P3-01 — DRUNK / ПЬЯНЫЙ in red pencil before TRUCK / ВОДИТЕЛЬ, then the dot. The music climbs toward it.
+        { "type": "shot", "layers": [
+          { "id": "desk", "sprite": "P1-03_desk" },
+          { "id": "page", "type": "page", "parent": "desk", "px": [733, 512], "rot": 2.0, "size": [480, 580],
+            "top": 62, "left": 30, "lineHeight": 66, "fontPx": 40, "order": 2, "font": "hand_bad",
+            "ink": { "grain": 0.4, "pencilRough": 0.07 } },
+          { "id": "pencil", "sprite": "P3-01_hand_redpencil", "parent": "desk", "px": [960, 900], "scale": 0.44, "rig": true,
+            "enter": [520, 380], "enterTime": 1.2, "liftPx": 8, "order": 10 },
+          { "id": "deskLamp", "type": "light", "parent": "desk", "px": [330, 150], "color": "#ffc98a", "intensity": 0.35, "radius": 700, "falloff": 0.7, "flicker": 0.06 },
+          { "id": "deskDust", "type": "dust", "parent": "desk", "px": [520, 330], "size": [600, 420], "order": 20, "rate": 5, "sizeMul": 1.4, "color": "#ffdcaa1e" }
+        ], "camera": { "zoom": 1.12, "x": 0, "y": -10 } },
+        { "type": "handheld", "px": 4, "rot": 0.15, "speed": 0.3 },
+        { "type": "preset", "page": "page", "line": 0, "key": "PAGE_TITLE", "align": "center", "fontScale": 1.3 },
+        { "type": "preset", "page": "page", "line": 1, "key": "PAGE_THEN_SHE", "struck": true },
+        { "type": "preset", "page": "page", "line": 2, "key": "PAGE_L1", "struck": true },
+        { "type": "preset", "page": "page", "line": 3, "key": "PAGE_L2", "struck": true },
+        { "type": "preset", "page": "page", "line": 4, "key": "PAGE_L3" },
+        { "type": "fade", "to": "clear", "duration": 1.0, "async": true },
+        { "type": "camera", "zoom": 1.3, "x": -20, "y": 40, "duration": 7.0, "async": true },
+        { "type": "musicLevel", "lufs": -19, "duration": 7 },
+        { "type": "handTo", "hand": "pencil", "page": "page", "line": 4, "at": "start", "offset": [120, -30], "duration": 1.4, "smooth": 0.45 },
+        { "type": "sfx", "clip": "SFX_pencil_write", "id": "pencil", "lufs": -31 },
+        { "type": "marker", "id": "seq_pencil_insert|crop=480,300,960,540|n=12|dt=0.08", "delay": 0.9, "async": true },
+        { "type": "insert", "page": "page", "line": 4, "key": "W_DRUNK", "anchorKey": "W_INSERT_ANCHOR", "color": "#a3161a", "cps": 6, "hand": "pencil" },
+        { "type": "stopSfx", "id": "pencil", "fade": 0.2 },
+        { "type": "wait", "time": 0.5 },
+        { "type": "marker", "id": "seq_pencil_dot|crop=480,300,960,540|n=8|dt=0.08", "delay": 0.2, "async": true },
+        { "type": "dot", "page": "page", "line": 4, "at": "lineEnd", "color": "#a3161a", "size": 12, "hand": "pencil", "sfx": "SFX_pencil_dot", "lufs": -24 },
+        // The dot lands with a stinger hit (MUS_sting_dot: the hit with the strongest sub boom of MUS_stingers).
+        // The world (music, rain, ticking) drains away under it, but the hit itself rings out through the silence
+        // ("throughSilence") and carries the cut to the clock — so the void reads as intended, not as a dropout.
+        { "type": "sfx", "clip": "MUS_sting_dot", "lufs": -18, "throughSilence": true },
+        { "type": "wait", "time": 0.15 },
+        { "type": "silence", "duration": 0.5 },
+        { "type": "marker", "id": "P3-01" },
+        { "type": "wait", "time": 0.6 },
+
+        // P3-02 — the wall clock, huge: 03:12. The hit's tail dies away, the light flickers, 03:13.
+        { "type": "shot", "layers": [
+          { "id": "wallDark", "sprite": "P2-04_wall", "scale": 2.2, "pos": [-900, -250], "tint": "#3a322c", "depth": 0.8 },
+          { "id": "bigClock", "type": "clock", "face": "PR_wallclock_face", "faceScale": 1.0, "scale": 0.98, "pos": [0, -10], "order": 4,
+            "hour": "PR_wallclock_hour", "minute": "PR_wallclock_minute", "hourLen": 170, "minuteLen": 238, "handWidth": 1.1, "time": "03:12" }
+        ] },
+        { "type": "handheld", "px": 0, "rot": 0 },
+        { "type": "camera", "zoom": 1.06, "duration": 4.0, "async": true },
+        { "type": "wait", "time": 0.8 },
+        { "type": "marker", "id": "P3-02" },
+        { "type": "wait", "time": 0.8 },
+        { "type": "sfx", "clip": "SFX_light_flicker", "id": "flick", "volume": 1.0 },
+        { "type": "flicker", "duration": 1.3, "strength": 0.9 },
+        { "type": "clock", "clock": "bigClock", "time": "03:13", "duration": 0.14, "ease": "outBack" },
+        { "type": "unsilence", "duration": 0.35 },
+        // After the silence: 03:13, relief, leaving home — its own cue.
+        { "type": "music", "clip": "MUS_scene3_after", "loop": false, "lufs": -25, "fade": 3.0 },
+        { "type": "stopSfx", "id": "flick", "fade": 0.8, "delay": 0.6, "async": true },
+        { "type": "wait", "time": 1.4 },
+
+        // P3-03 — relief. He noticed nothing. (3 s)
+        { "type": "shot", "fade": 0.5, "layers": [ { "id": "relief", "sprite": "P1-04_face_relief" } ] },
+        { "type": "handheld", "px": 3, "rot": 0.1, "speed": 0.25 },
+        { "type": "camera", "zoom": 1.06, "y": 15, "duration": 3.0, "async": true },
+        { "type": "marker", "id": "P3-03", "delay": 1.2, "async": true },
+        { "type": "wait", "time": 2.6 },
+
+        // P3-04 — coat on, he walks down the hall to the door (ArtInbox/walk_P3-04, shrinking into depth towards the
+        // vanishing point of the hall), the door opens in three stages (door_P3-04: only the doorway is replaced, laid
+        // over P3-04_door_bg), cold stairwell light spills in, he steps out, the door closes behind him and the flat
+        // is left darker. Door frame times follow the events of SFX_door_apartment (latch 0.75 s, swing 1.4/2.15 s,
+        // closing 4.35/5.1 s, slam 6.15 s, lock 6.6 s — onsets measured from the clip's envelope).
+        { "type": "shot", "fade": 0.8, "layers": [
+          { "id": "hall", "sprite": "P3-04_door_bg" },
+          { "id": "door30", "sprite": "P3-04_door_30", "parent": "hall", "px": [768, 512], "order": 2, "alpha": 0 },
+          { "id": "door60", "sprite": "P3-04_door_60", "parent": "hall", "px": [768, 512], "order": 3, "alpha": 0 },
+          { "id": "door90", "sprite": "P3-04_door_90", "parent": "hall", "px": [768, 512], "order": 4, "alpha": 0 },
+          { "id": "hallLamp", "type": "light", "parent": "hall", "px": [140, 470], "color": "#ffbf80", "intensity": 0.45, "radius": 1100, "falloff": 0.75 },
+          { "id": "stairLight", "type": "light", "parent": "hall", "px": [1090, 760], "color": "#b9c9ff", "intensity": 0, "radius": 520, "falloff": 0.7 },
+          { "id": "stairGlow", "type": "glow", "parent": "hall", "px": [1080, 800], "size": [620, 170], "order": 4, "color": "#c6d4ff50", "alpha": 0 },
+          { "id": "coat", "sprite": "P3-04_walk_01", "parent": "hall", "px": [640, 1260], "scale": 0.72, "order": 6 }
+        ] },
+        { "type": "marker", "id": "P3-04", "delay": 1.6, "async": true },
+        { "type": "marker", "id": "seq_P3-04_walk|crop=480,0,1440,1080|n=12|dt=0.08", "delay": 1.2, "async": true },
+        { "type": "walk", "id": "coat", "frames": { "prefix": "P3-04_walk_", "count": 8, "idle": 5, "plants": [4, 7] },
+          "px": [1085, 790], "scale": 0.44, "perspective": true, "vanish": [1075, 430], "duration": 4.6, "ease": "outSine",
+          "cycleTime": 1.15, "blend": 0.5 },
+        { "type": "marker", "id": "seq_P3-04_door|crop=900,60,900,900|n=12|dt=0.08", "delay": 0.6, "async": true },
+        { "type": "parallel", "steps": [
+          { "type": "sfx", "clip": "SFX_door_apartment", "lufs": -26 },
+          { "type": "alpha", "id": "door30", "to": 1, "duration": 0.1, "delay": 0.75 },
+          { "type": "lightTo", "id": "stairLight", "intensity": 0.35, "duration": 0.4, "delay": 0.75 },
+          { "type": "alpha", "id": "door60", "to": 1, "duration": 0.12, "delay": 1.4 },
+          { "type": "lightTo", "id": "stairLight", "intensity": 0.7, "duration": 0.5, "delay": 1.4 },
+          { "type": "alpha", "id": "door90", "to": 1, "duration": 0.14, "delay": 2.15 },
+          { "type": "lightTo", "id": "stairLight", "intensity": 1.1, "duration": 0.6, "delay": 2.15 },
+          { "type": "alpha", "id": "stairGlow", "to": 1, "duration": 0.8, "delay": 2.15 },
+          // Through the doorway: a few more steps into the light, then he is gone down the stairs.
+          { "type": "walk", "id": "coat", "frames": { "prefix": "P3-04_walk_", "count": 8, "idle": 4, "plants": [4, 7] },
+            "px": [1150, 772], "scale": 0.4, "perspective": true, "duration": 1.6, "ease": "linear", "cycleTime": 1.15, "blend": 0.5, "delay": 2.3 },
+          { "type": "alpha", "id": "coat", "to": 0, "duration": 0.7, "delay": 3.1 },
+          { "type": "alpha", "id": "door90", "to": 0, "duration": 0.14, "delay": 4.35 },
+          { "type": "lightTo", "id": "stairLight", "intensity": 0.6, "duration": 0.4, "delay": 4.35 },
+          { "type": "alpha", "id": "door60", "to": 0, "duration": 0.12, "delay": 5.1 },
+          { "type": "lightTo", "id": "stairLight", "intensity": 0.25, "duration": 0.4, "delay": 5.1 },
+          { "type": "alpha", "id": "stairGlow", "to": 0, "duration": 0.9, "delay": 5.1 },
+          { "type": "alpha", "id": "door30", "to": 0, "duration": 0.08, "delay": 6.1 },
+          { "type": "lightTo", "id": "stairLight", "intensity": 0, "duration": 0.12, "delay": 6.1 },
+          { "type": "lightTo", "id": "hallLamp", "intensity": 0.3, "duration": 1.2, "delay": 6.3 }
+        ] },
+        { "type": "stopMusic", "fade": 2.0 },
+        { "type": "fade", "to": "black", "duration": 1.4 },
+        { "type": "stopLoop", "id": "tick", "fade": 1.0 }
+      ]
+    },
+
+    // ===================================================================== SCENE 4 — the street (interactive, no combat)
+    "scene4": {
+      "scene": "Prologue_Street",
+      "music": { "clip": "MUS_street", "lufs": -27, "fade": 4.0 },
+      "ambience": [
+        { "id": "rainStreet", "clip": "SFX_rain_street", "lufs": -31, "fade": 2.0 },
+        { "id": "traffic", "clip": "SFX_traffic_far", "lufs": -40, "fade": 3.0 }
+      ],
+      "imprint": 0.15, "imprintEdge": 0.35,
+      "autopilot": [[330, 300], [700, 380], [900, 470], [1000, 500], [1300, 540], [1560, 560], [1650, 540], [1660, 478]],
+      "steps": [
+        { "type": "player", "enabled": false },
+        { "type": "fade", "to": "clear", "duration": 2.0 },
+        { "type": "player", "enabled": true },
+        // First interactive moment: say that the player walks now, and where to (hidden once they have walked a bit).
+        { "type": "hint", "keys": ["HINT_GOAL_STREET", "HINT_MOVE", "HINT_INTERACT"], "untilMoved": 2.5, "maxTime": 20, "linger": 3.0, "async": true },
+        { "type": "marker", "id": "street", "delay": 2.0, "async": true },
+        { "type": "marker", "id": "seq_street_walk|crop=560,240,800,600|n=12|dt=0.08", "delay": 3.0, "async": true },
+        // Establishing car: the first car always passes close by on the kerb lane soon after the fade-in.
+        { "type": "vehicle", "car": "car2_A", "lane": "A", "reach": [560, 0], "reachTime": 3.9, "speed": 640 },
+        { "type": "marker", "id": "seq_street_car|crop=0,380,1440,700|n=12|dt=0.08", "delay": 2.6, "async": true },
+        { "type": "waitTrigger", "id": "street_mid" },
+        { "type": "marker", "id": "street_mid" },
+
+        // The crossing: a truck that isn't there. Elias keeps walking under the growing rumble and freezes exactly
+        // on the attack of the brake screech (attack time measured from the clip, Data/audio_levels.json).
+        { "type": "waitTrigger", "id": "crosswalk_approach" },
+        { "type": "traffic", "enabled": false },
+        // The truck is a ghost (truck_A on lane A): it fades in together with its headlights and its rumble (the rumble is
+        // the vehicle's own sound: panned and Doppler-shifted with it), rushes at the crossing ("reach": at map x 820
+        // "reachTime" s after it appears) and vanishes on the attack of the brake screech (vehicleVanish right after the
+        // sfx step with waitAttack). Look: "ghost" = SpriteGhost material settings (tint alpha = opacity, dissolve = how
+        // much of the tail is eaten, flicker = depth of the dips, flickerChance per frame).
+        { "type": "vehicle", "id": "ghostTruck", "car": "truck_A", "lane": "A", "ghost": true, "speed": 950, "reach": [820, 0], "reachTime": 1.05,
+          "look": {
+            "headlight": { "radius": 720, "angle": 56, "innerAngle": 22, "intensity": 2.6, "color": "#e6eeff", "glow": 80, "glowAlpha": 0.75, "streak": [50, 190] },
+            "sound": { "clip": "SFX_truck_rumble", "lufs": -27, "doppler": 0.05, "panRange": 900, "range": 1100, "randomStart": false, "pitchJitter": 0 },
+            "ghost": { "tint": "#b4c8ff8c", "base": 0.3, "detail": 1.8, "keepColour": 0.2, "dissolve": 0.42, "dissolveDir": [1, -0.35],
+                       "scan": 0.18, "fadeIn": 0.35, "flicker": 0.5, "flickerChance": 0.12 }
+          }, "async": true, "delay": 0.25 },
+        { "type": "marker", "id": "seq_street_ghost|crop=0,300,1920,780|n=12|dt=0.1", "delay": 0.35, "async": true },
+        { "type": "cameraShake", "duration": 1.2, "amplitude": 4, "async": true, "delay": 0.3 },
+        { "type": "wait", "time": 1.2 },
+        { "type": "sfx", "clip": "SFX_brakes_ghost", "lufs": -22, "waitAttack": true },
+        { "type": "vehicleVanish", "id": "ghostTruck", "duration": 0.12, "soundFade": 0.35 },
+        { "type": "playerFreeze" },
+        { "type": "marker", "id": "street_brakes" },
+        { "type": "wait", "time": 0.35 },
+        { "type": "marker", "id": "seq_street_turn|crop=560,240,800,600|n=12|dt=0.08", "async": true },
+        { "type": "playerTurn", "dir": "left", "duration": 0.45 },
+        { "type": "wait", "time": 1.6 },
+        { "type": "playerTurn", "dir": "right", "duration": 0.45 },
+        { "type": "wait", "time": 0.3 },
+        { "type": "player", "enabled": true },
+        { "type": "hint", "key": "HINT_GOAL_STREET", "maxTime": 2.5, "linger": 1.0, "async": true },
+        { "type": "traffic", "enabled": true },
+        { "type": "waitTrigger", "id": "street_end" },
+        { "type": "marker", "id": "street_end" },
+
+        // The printing house door.
+        { "type": "waitInteract", "id": "door_printhouse", "prompt": "PROMPT_OPEN" },
+        { "type": "player", "enabled": false },
+        { "type": "playerTurn", "dir": "up", "duration": 0.3 },
+        { "type": "sfx", "clip": "SFX_door_printhouse", "lufs": -24 },
+        { "type": "fade", "to": "black", "duration": 1.3 }
+      ]
+    },
+
+    // ===================================================================== SCENE 5 — the printing house (interactive)
+    "scene5": {
+      "scene": "Prologue_PrintHouse",
+      "music": { "clip": "MUS_printhouse", "lufs": -27, "fade": 3.0 },
+      "ambience": [ { "id": "rainInside", "clip": "SFX_rain_window", "lufs": -40, "fade": 2.0 } ],
+      "imprint": 0.35,
+      "autopilot": [[1235, 630], [1300, 590], [1340, 560]],
+      "steps": [
+        { "type": "player", "enabled": false },
+        { "type": "fade", "to": "clear", "duration": 2.0 },
+        { "type": "player", "enabled": true },
+        { "type": "hint", "key": "HINT_GOAL_PRINTHOUSE", "maxTime": 4.0, "linger": 1.0, "async": true },
+        { "type": "marker", "id": "printhouse", "delay": 0.6, "async": true },
+
+        { "type": "waitTrigger", "id": "press" },
+        { "type": "player", "enabled": false },
+        { "type": "playerTurn", "dir": "up", "duration": 0.3 },
+        { "type": "wait", "time": 0.5 },
+        { "type": "marker", "id": "seq_press|crop=860,140,760,540|n=12|dt=0.08", "delay": 0.2, "async": true },
+        { "type": "actorPress", "id": "press", "count": 3, "interval": 0.62, "clip": "SFX_press_clack", "volume": 0.95 },
+        { "type": "sfx", "clip": "SFX_sheet_slide", "lufs": -28 },
+        { "type": "wait", "time": 0.5 },
+
+        // Insert: printed sheets, one per line
+        { "type": "shot", "fade": 0.6, "through": "black", "layers": [
+          { "id": "ground", "type": "rect", "color": "#070707", "order": 0 },
+          { "id": "sheet1", "sprite": "PR_sheet", "fit": "none", "scale": 1.0, "pos": [0, -1300], "rot": -2.5, "order": 2 },
+          { "id": "t1", "type": "text", "parent": "sheet1", "px": [762, 470], "font": "mono", "fontPx": 72, "width": 700, "height": 200,
+            "color": "#16130f", "style": "print", "reveal": 0, "spacing": 4, "order": 3 }
+        ] },
+        { "type": "handheld", "px": 3, "rot": 0.1, "speed": 0.3 },
+        { "type": "sfx", "clip": "SFX_sheet_slide", "lufs": -30 },
+        { "type": "move", "id": "sheet1", "pos": [0, -20], "duration": 0.45, "ease": "outCubic" },
+        { "type": "stamp", "id": "t1", "key": "SHEET_1", "duration": 0.22, "sfx": "SFX_press_clack", "lufs": -26 },
+        { "type": "camera", "zoom": 1.08, "duration": 1.2, "async": true },
+        { "type": "wait", "time": 1.1 },
+        { "type": "show", "layers": [
+          { "id": "sheet2", "sprite": "PR_sheet", "fit": "none", "scale": 1.0, "pos": [30, -1300], "rot": 3.0, "order": 12 },
+          { "id": "t2", "type": "text", "parent": "sheet2", "px": [762, 470], "font": "mono", "fontPx": 58, "width": 700, "height": 240,
+            "color": "#16130f", "style": "print", "reveal": 0, "spacing": 2, "order": 13 }
+        ] },
+        { "type": "sfx", "clip": "SFX_sheet_slide", "lufs": -30 },
+        { "type": "move", "id": "sheet2", "pos": [25, -30], "duration": 0.45, "ease": "outCubic" },
+        { "type": "stamp", "id": "t2", "key": "SHEET_2", "duration": 0.22, "sfx": "SFX_press_clack", "lufs": -26 },
+        { "type": "camera", "zoom": 1.0, "duration": 1.2, "async": true },
+        { "type": "wait", "time": 1.1 },
+        { "type": "show", "layers": [
+          { "id": "sheet3", "sprite": "PR_sheet", "fit": "none", "scale": 1.0, "pos": [-20, -1300], "rot": -1.2, "order": 22 },
+          { "id": "t3", "type": "text", "parent": "sheet3", "px": [762, 470], "font": "mono", "fontPx": 72, "width": 700, "height": 200,
+            "color": "#16130f", "style": "print", "reveal": 0, "spacing": 4, "order": 23 }
+        ] },
+        { "type": "sfx", "clip": "SFX_sheet_slide", "lufs": -30 },
+        { "type": "move", "id": "sheet3", "pos": [-10, -20], "duration": 0.45, "ease": "outCubic" },
+        { "type": "stamp", "id": "t3", "key": "SHEET_3", "duration": 0.22, "sfx": "SFX_press_clack", "lufs": -26 },
+        { "type": "camera", "zoom": 1.1, "duration": 1.2, "async": true },
+        { "type": "marker", "id": "insert_sheets" },
+        { "type": "wait", "time": 1.2 },
+
+        // The watch: 23:41 … glitch … 03:40
+        { "type": "shot", "fade": 0.35, "through": "black", "layers": [
+          { "id": "ground", "type": "rect", "color": "#070707", "order": 0 },
+          { "id": "watch", "type": "clock", "face": "PR_watch_face", "scale": 1.05, "pos": [0, 0], "order": 2,
+            "hour": "PR_watch_hour", "minute": "PR_watch_minute", "hourLen": 150, "minuteLen": 218, "time": "23:41" }
+        ], "camera": { "zoom": 1.0 } },
+        { "type": "camera", "zoom": 1.1, "duration": 2.4, "async": true },
+        { "type": "wait", "time": 1.0 },
+        { "type": "marker", "id": "watch_2341" },
+        { "type": "glitch", "duration": 0.45, "strength": 1.0, "async": true },
+        { "type": "wait", "time": 0.2 },
+        { "type": "clock", "clock": "watch", "time": "03:40", "duration": 0.22, "ease": "outCubic" },
+        { "type": "wait", "time": 1.2 },
+
+        // Last sheet
+        { "type": "shot", "fade": 0.35, "through": "black", "layers": [
+          { "id": "ground", "type": "rect", "color": "#070707", "order": 0 },
+          { "id": "sheet4", "sprite": "PR_sheet", "fit": "none", "scale": 1.0, "pos": [0, -1300], "rot": 1.5, "order": 2 },
+          { "id": "t4", "type": "text", "parent": "sheet4", "px": [762, 480], "font": "mono", "fontPx": 50, "width": 640, "height": 400,
+            "color": "#16130f", "style": "print", "reveal": 0, "lineSpacing": 10, "order": 3 }
+        ], "camera": { "zoom": 1.0 } },
+        { "type": "sfx", "clip": "SFX_sheet_slide", "lufs": -30 },
+        { "type": "move", "id": "sheet4", "pos": [0, -20], "duration": 0.5, "ease": "outCubic" },
+        { "type": "stamp", "id": "t4", "key": "SHEET_4", "duration": 0.35, "sfx": "SFX_press_clack", "lufs": -26 },
+        { "type": "camera", "zoom": 1.12, "duration": 2.4, "async": true },
+        { "type": "marker", "id": "insert_last" },
+        { "type": "wait", "time": 2.4 },
+        { "type": "clear", "fade": 0.8 },
+        { "type": "handheld", "px": 0, "rot": 0 },
+
+        // A pale light wakes at the far end of the hall, around the door set into the back wall.
+        { "type": "actorLight", "id": "doorLight", "intensity": 1.4, "duration": 2.5, "async": true },
+        { "type": "actorAlpha", "id": "doorGlow", "to": 0.22, "duration": 2.5, "async": true },
+        { "type": "wait", "time": 0.8 },
+        { "type": "player", "enabled": true }
+      ]
+    },
+
+    // ===================================================================== SCENE 6 — the PALINODE door
+    "scene6": {
+      "scene": "Prologue_PrintHouse",
+      "startBlack": false,
+      // Cross-fade into the tense ending of the print-house cue at the PALINODE door.
+      "music": { "clip": "MUS_printhouse_door", "lufs": -25, "fade": 3.0 },
+      "ambience": [ { "id": "rainInside", "clip": "SFX_rain_window", "lufs": -40 } ],
+      "imprint": 0.6,
+      "autopilot": [[1540, 570], [1568, 480], [1555, 360], [1640, 300], [1700, 262]],
+      "steps": [
+        { "type": "actorLight", "id": "doorLight", "intensity": 1.4, "duration": 0.01 },
+        { "type": "actorAlpha", "id": "doorGlow", "to": 0.22, "duration": 0.01 },
+        { "type": "fade", "to": "clear", "duration": 0.6 },
+        { "type": "player", "enabled": true },
+        { "type": "waitInteract", "id": "door_palinode", "prompt": "PROMPT_OPEN" },
+        { "type": "player", "enabled": false },
+        { "type": "playerTurn", "dir": "up", "duration": 0.3 },
+        { "type": "marker", "id": "door_before" },
+        { "type": "cameraSize", "size": 1.35, "offsetY": 130, "duration": 1.6 },
+        { "type": "actorText", "id": "doorText", "duration": 2.6 },
+        { "type": "wait", "time": 0.6 },
+        { "type": "marker", "id": "door_text" },
+        { "type": "marker", "id": "seq_door|crop=560,160,800,700|n=12|dt=0.08", "delay": 0.05, "async": true },
+        { "type": "actorSprite", "id": "door", "sprite": "G_door_front_ajar" },
+        { "type": "actorActive", "id": "doorGap", "active": true },
+        { "type": "sfx", "clip": "SFX_door_palinode", "lufs": -22 },
+        { "type": "actorLight", "id": "doorLight", "intensity": 3.5, "duration": 1.6, "async": true },
+        { "type": "marker", "id": "door_open", "delay": 0.8, "async": true },
+        { "type": "imprint", "value": 0.8, "duration": 1.6, "async": true },
+        { "type": "wait", "time": 1.2 },
+        { "type": "fade", "to": "white", "duration": 1.6 }
+      ]
+    },
+
+    // ===================================================================== SCENE 7 — the Archivist, ~60 s
+    "scene7": {
+      "scene": "Prologue_Cinematic",
+      "startColor": "#ffffff",
+      "ambience": [ { "id": "archive", "clip": "SFX_archive_ambience", "lufs": -36, "fade": 2.5 } ],
+      "imprint": 0,
+      "steps": [
+        // P7-01 — the endless archive, Elias from behind (7 s)
+        { "type": "shot", "layers": [
+          { "id": "bg", "sprite": "P7-01_bg", "depth": 0.85 },
+          { "id": "fog", "type": "shaderQuad", "shader": "Fog", "pos": [0, -370], "size": [2600, 460], "color": "#aab4c85a", "order": 4, "depth": 1.0,
+            "props": { "_Scale": 0.55, "_Density": 1.1, "_Falloff": 1.3 } },
+          { "id": "eliasCoat", "sprite": "P3-04_elias_coat", "fit": "none", "scale": 0.3, "pos": [120, -290], "order": 6, "depth": 1.05, "tint": "#9aa0b0" },
+          { "id": "fogFront", "type": "shaderQuad", "shader": "Fog", "pos": [0, -470], "size": [2600, 260], "color": "#9aa6bc40", "order": 7, "depth": 1.15,
+            "props": { "_Scale": 0.8, "_Density": 1.0, "_Falloff": 1.1 } },
+          { "id": "shelves", "sprite": "P7-01_shelves", "fit": "none", "scale": 1.3, "pos": [-760, -30], "order": 8, "depth": 1.4, "tint": "#8c8a96" },
+          { "id": "dust", "type": "dust", "pos": [80, 60], "size": [1200, 700], "order": 9, "rate": 12, "color": "#c8d2ff30", "depth": 1.1 }
+        ] },
+        { "type": "music", "clip": "MUS_scene7_archivist", "loop": false, "lufs": -26, "fade": 6.0 },
+        { "type": "fade", "to": "clear", "duration": 2.2, "async": true },
+        { "type": "camera", "zoom": 1.12, "x": 60, "y": 10, "duration": 7.0, "async": true },
+        { "type": "wait", "time": 5.5 },
+        { "type": "marker", "id": "P7-01" },
+        { "type": "wait", "time": 1.5 },
+
+        // Dialogue — each shot lasts line length + pause (0.6–1.0 s), taken from the voice clip.
+        { "type": "imprint", "value": 0.2, "duration": 0.8, "async": true },
+        { "type": "shot", "fade": 0.6, "layers": [
+          { "id": "bg", "sprite": "P7-02_bg" },
+          { "id": "arch", "sprite": "P7-02_archivist", "fit": "none", "scale": 0.97, "pos": [0, -40], "order": 3 },
+          { "id": "archLamp", "type": "light", "parent": "arch", "px": [1100, 540], "color": "#ffc27a", "intensity": 0.5, "radius": 700, "falloff": 0.7, "flicker": 0.05 }
+        ] },
+        { "type": "camera", "zoom": 1.05, "duration": 3.0, "async": true },
+        { "type": "marker", "id": "P7-02_subtitle", "delay": 0.7, "async": true },
+        { "type": "vo", "clip": "VO_arch_01", "sub": "SUB_ARCH_01", "pause": 0.8 },
+
+        { "type": "shot", "layers": [ { "id": "eli", "sprite": "P7-03_elias" } ] },
+        { "type": "vo", "clip": "VO_eli_01", "sub": "SUB_ELI_01", "pause": 0.7 },
+
+        { "type": "shot", "layers": [ { "id": "calm", "sprite": "P7-04a_calm" } ] },
+        { "type": "vo", "clip": "VO_arch_02", "sub": "SUB_ARCH_02", "pause": 0.8 },
+
+        { "type": "shot", "layers": [ { "id": "eli", "sprite": "P7-03_elias" } ], "camera": { "zoom": 1.04 } },
+        { "type": "vo", "clip": "VO_eli_02", "sub": "SUB_ELI_02", "pause": 0.7 },
+
+        { "type": "shot", "layers": [ { "id": "calm", "sprite": "P7-04a_calm" } ], "camera": { "zoom": 1.03 } },
+        { "type": "vo", "clip": "VO_arch_03", "sub": "SUB_ARCH_03", "pause": 0.6 },
+        { "type": "sfx", "clip": "SFX_book_close", "volume": 0.9 },
+        { "type": "shake", "amplitude": 3, "duration": 0.25, "async": true },
+        { "type": "wait", "time": 0.5 },
+        { "type": "vo", "clip": "VO_arch_04", "sub": "SUB_ARCH_04", "pause": 0.8 },
+
+        { "type": "shot", "layers": [ { "id": "eli", "sprite": "P7-03_elias" } ], "camera": { "zoom": 1.07, "y": 40 } },
+        { "type": "vo", "clip": "VO_eli_03", "sub": "SUB_ELI_03", "pause": 0.8 },
+
+        { "type": "shot", "layers": [ { "id": "gaze", "sprite": "P7-04b_gaze", "pos": [0, -300] } ] },
+        { "type": "camera", "zoom": 1.05, "duration": 4.0, "async": true },
+        { "type": "vo", "clip": "VO_arch_05", "sub": "SUB_ARCH_05", "pause": 0.8 },
+
+        { "type": "shot", "layers": [ { "id": "eli", "sprite": "P7-03_elias" } ], "camera": { "zoom": 1.1, "y": 50 } },
+        { "type": "vo", "clip": "VO_eli_04", "sub": "SUB_ELI_04", "pause": 0.7 },
+
+        { "type": "shot", "layers": [ { "id": "gaze", "sprite": "P7-04b_gaze", "pos": [0, -300] } ], "camera": { "zoom": 1.06 } },
+        { "type": "camera", "zoom": 1.12, "duration": 5.0, "async": true },
+        { "type": "vo", "clip": "VO_arch_06", "sub": "SUB_ARCH_06", "pause": 0.6 },
+        { "type": "vo", "clip": "VO_arch_breath", "pause": 0.3 },
+
+        // P7-05 — ink surfaces on the blank sheet
+        { "type": "shot", "fade": 0.5, "layers": [
+          { "id": "sheetHand", "sprite": "P7-05_hand_sheet", "pos": [0, 360] },
+          { "id": "ink", "type": "text", "parent": "sheetHand", "px": [596, 985], "rot": 1.0, "scale2": [1.0, 0.82], "font": "hand",
+            "fontPx": 56, "width": 760, "height": 160, "color": "#1c1512f0", "style": "paint", "reveal": 0, "order": 3 }
+        ] },
+        { "type": "camera", "zoom": 1.06, "duration": 5.0, "async": true },
+        { "type": "wait", "time": 0.6 },
+        { "type": "emerge", "id": "ink", "key": "ARCHIVE_DATE", "duration": 2.8 },
+        { "type": "marker", "id": "P7-05" },
+        { "type": "wait", "time": 1.4 },
+
+        // P7-06 — recognition. Very slow push, the world goes almost silent. No line.
+        { "type": "shot", "fade": 0.6, "layers": [ { "id": "recog", "sprite": "P7-06_elias_recognition" } ] },
+        { "type": "duck", "level": 0.06, "duration": 1.5 },
+        { "type": "camera", "zoom": 1.1, "y": 30, "duration": 5.0, "ease": "inOutSine", "async": true },
+        { "type": "wait", "time": 3.2 },
+        { "type": "marker", "id": "P7-06" },
+        { "type": "wait", "time": 1.8 },
+
+        { "type": "shot", "layers": [ { "id": "calm", "sprite": "P7-04a_calm" } ], "camera": { "zoom": 1.08 } },
+        { "type": "duck", "level": 0.7, "duration": 1.0 },
+        { "type": "vo", "clip": "VO_arch_07", "sub": "SUB_ARCH_07", "pause": 1.0 },
+        { "type": "stopMusic", "fade": 2.5 },
+        { "type": "fade", "to": "black", "duration": 1.6 }
+      ]
+    },
+
+    // ===================================================================== FINALE — title card
+    "title": {
+      "scene": "Prologue_Cinematic",
+      "ambience": [],
+      "imprint": 0,
+      "skippable": true,
+      "steps": [
+        { "type": "wait", "time": 1.0 },
+        { "type": "sfx", "clip": "MUS_title", "lufs": -16 },
+        { "type": "title", "key": "TITLE", "fadeIn": 2.4, "hold": 2.2, "fadeOut": -1, "size": 160 },
+        { "type": "marker", "id": "title" },
+        { "type": "titleSub", "key": "REVISION", "fade": 1.6 },
+        { "type": "wait", "time": 3.2 },
+        { "type": "marker", "id": "title_revision" },
+        { "type": "clearTitle", "fade": 2.0 },
+        { "type": "wait", "time": 1.2 }
+      ]
+    }
+  },
+
+  // ===================================================================== PLAYER WALK CYCLE (ArtInbox/walk_topdown → art_processing.json "sequences")
+  // 8 frames per direction (left = mirrored right). The cycle is driven by distance travelled ("cyclePx" per level = map px per
+  // two steps), so the feet never slide. "plants" = frames where a foot lands (footstep sound), "idle" = the standing frame,
+  // "blend" = how much the next frame is cross-faded in between frames (smooths the 8-frame cycle).
+  "playerWalk": {
+    "blend": 0.55,
+    "down":  { "prefix": "G_walk_down_",  "count": 8, "idle": 2, "plants": [0, 4] },
+    "up":    { "prefix": "G_walk_up_",    "count": 8, "idle": 3, "plants": [1, 5] },
+    "right": { "prefix": "G_walk_right_", "count": 8, "idle": 2, "plants": [3, 7] }
+  },
+
+  // ===================================================================== INTERACTIVE LEVELS (coordinates = background image pixels)
+  "levels": {
+    "street": {
+      "background": "G_street",
+      "cameraSize": 3.9,
+      "cameraOffsetY": 50,
+      "globalLight": { "intensity": 1.0, "color": "#d6dcec" },
+      // Scale 0.19 (was 0.135, ×1.4): Elias ~150 map px tall — the printing-house door is ~160 px, the parked car roof ~110 px.
+      "player": {
+        "spawn": [95, 262], "facing": "right", "scale": 0.19, "speed": 105, "cyclePx": 120,
+        "feet": [42, 16], "reflection": true, "footsteps": "SFX_footsteps_wet", "footstepVolume": 0.6
+      },
+      // Walkable area: sidewalk + roadway. Everything outside the loop is building, fence or yard.
+      "bounds": [[0, 215], [180, 245], [390, 262], [470, 285], [640, 312], [860, 368], [1000, 405], [1150, 428], [1340, 448],
+                 [1440, 480], [1452, 512], [1618, 512], [1625, 440], [1805, 440], [1808, 545], [1983, 592], [1983, 793],
+                 [340, 793], [312, 690], [230, 605], [80, 545], [0, 528]],
+      "walls": [
+        [[555, 793], [560, 722], [735, 730], [735, 793]]
+      ],
+      // Objects cut out of the map (art_processing.json "cutouts"): drawn over the painted originals and depth-sorted
+      // against Elias by their base Y. "footprint": collider around the base ([w, h] box or polygon, map px).
+      "occluders": [
+        { "sprite": "occ_street_lamp1", "footprint": [26, 12] },
+        { "sprite": "occ_street_lamp2", "footprint": [30, 14] },
+        { "sprite": "occ_street_lamp3", "footprint": [30, 14] },
+        { "sprite": "occ_street_lamp4", "footprint": [30, 14] },
+        { "sprite": "occ_street_bollard_a", "footprint": [16, 10] },
+        { "sprite": "occ_street_bollard_b", "footprint": [16, 10] },
+        { "sprite": "occ_street_bollard_c", "footprint": [16, 10] },
+        { "sprite": "occ_street_bollard_d", "footprint": [16, 10] },
+        { "sprite": "occ_street_bollard_e", "footprint": [16, 10] },
+        { "sprite": "occ_street_bollard_f", "footprint": [16, 10] },
+        { "sprite": "occ_street_trafficlight", "footprint": [22, 12] },
+        { "sprite": "occ_street_tree", "footprint": [30, 12] },
+        { "sprite": "occ_street_car_left", "footprint": [[0, 345], [170, 330], [272, 398], [268, 470], [170, 492], [0, 475]] },
+        { "sprite": "occ_street_car_right", "footprint": [[1702, 615], [1830, 592], [1983, 600], [1983, 765], [1840, 765], [1702, 705]] },
+        { "sprite": "occ_street_pillar_l", "footprint": [44, 14] },
+        { "sprite": "occ_street_pillar_r", "footprint": [46, 14] }
+      ],
+      "triggers": [
+        { "id": "street_mid", "rect": [560, 280, 40, 513] },
+        { "id": "crosswalk_approach", "rect": [800, 360, 50, 433] },
+        { "id": "street_end", "rect": [1500, 440, 40, 353] }
+      ],
+      "interactables": [ { "id": "door_printhouse", "pos": [1660, 468], "radius": 80, "promptOffset": [0, -170] } ],
+      "lights": [
+        { "id": "lamp1", "pos": [140, 62], "radius": 250, "intensity": 0.9, "color": "#ffbf78", "flicker": 0.05, "glow": { "size": [40, 40], "color": "#ffcf8a30" } },
+        { "id": "lamp2", "pos": [272, 178], "radius": 280, "intensity": 1.0, "color": "#ffbf78", "flicker": 0.05, "glow": { "size": [40, 40], "color": "#ffcf8a30" } },
+        { "id": "lamp3", "pos": [790, 300], "radius": 300, "intensity": 1.0, "color": "#ffbf78", "flicker": 0.05, "glow": { "size": [44, 44], "color": "#ffcf8a30" } },
+        { "id": "lamp4", "pos": [1252, 398], "radius": 300, "intensity": 1.0, "color": "#ffbf78", "flicker": 0.08, "glow": { "size": [44, 44], "color": "#ffcf8a30" } },
+        { "id": "signLampL", "pos": [1668, 140], "radius": 170, "intensity": 0.55, "color": "#ffc98a", "flicker": 0.1 },
+        { "id": "signLampR", "pos": [1845, 205], "radius": 170, "intensity": 0.55, "color": "#ffc98a", "flicker": 0.1 },
+        { "id": "red", "pos": [1484, 520], "radius": 150, "intensity": 1.4, "color": "#ff2a18", "flicker": 0.03, "glow": { "size": [40, 40], "color": "#ff302060" } },
+        { "id": "redReflection", "pos": [1484, 738], "radius": 110, "intensity": 0.6, "color": "#ff2a18" }
+      ],
+      "props": [
+        { "id": "sign", "type": "text", "pos": [1748, 214], "text": "VEYL & CRANE PRINTING", "font": "title", "fontPx": 25,
+          "color": "#e2d4b08c", "width": 250, "height": 60, "style": "paint", "skew": -9.5, "spacing": 5, "lineSpacing": -18, "order": -29000 }
+      ],
+      // Full-screen rain: 3 depth layers, follows the camera, covers any aspect ratio; puddle rings + splashes on the ground.
+      "fx": [ { "type": "rainField", "angle": 9, "density": 1.0, "color": "#c8d2e4a8", "order": 14000, "rings": 80, "splashes": 180 } ],
+      // Passing traffic (ArtInbox/cars → art_processing.json). Right-hand traffic: lane "A" (far lane) drives down-right,
+      // cars seen from the front; lane "B" (near the kerb) drives up-left, cars seen from behind with their tail lights.
+      // Lanes are straight lines in map px (the direction of travel is path[0] → path[1]). "speed" map px/s,
+      // "interval" s between cars, "avoidPlayer" px: no car is spawned while Elias stands in its lane.
+      // "scale" car sprite px → map px, "rotation" degrees (aligns the painted car axis, ~20°, with the road, ~13°).
+      // Per car (sprite px of the 1536×1024 image): "anchor" = ground centre between the wheels (depth sorting point),
+      // "head"/"tail" = lamp positions, "headGlow": false when the lamps face away, "mirror" = near-side ground line (y)
+      // about which the wet-asphalt reflection is mirrored.
+      "traffic": {
+        "firstDelay": 9, "interval": [7, 13], "speed": [600, 720], "avoidPlayer": 110,
+        "scale": 0.26, "rotation": 7, "tint": "#8d93a0",   // tint: darkens the cars to the painted street
+        "lanes": {
+          "A": { "path": [[-700, 338], [2700, 1103]], "cars": ["car1_A", "car2_A", "car3_A", "car4_A"] },
+          "B": { "path": [[2700, 1033], [-700, 268]], "cars": ["car1_B", "car2_B", "car3_B", "car4_B"] }
+        },
+        "headlight": { "radius": 520, "angle": 50, "innerAngle": 20, "intensity": 1.4, "color": "#fff0d4", "glow": 58, "streak": [40, 150] },
+        "taillight": { "radius": 90, "intensity": 0.9, "color": "#ff2a18", "glow": 30, "streak": [20, 80] },
+        "reflection": { "color": "#8a96b82a", "squash": 0.85 },
+        "spray": { "rate": 6, "size": 0.3, "width": 30, "life": 0.9, "rise": 0.25, "drag": 0.06, "color": "#c8d2e414" },
+        "sound": { "clip": "SFX_traffic_far", "lufs": -29, "doppler": 0.07, "panRange": 900, "range": 700 },
+        "cars": {
+          "car1_A": { "anchor": [600, 640], "head": [[1087, 653], [1300, 533]], "mirror": 730 },
+          "car2_A": { "anchor": [612, 653], "head": [[1027, 687], [1300, 573]], "mirror": 740 },
+          "car3_A": { "anchor": [621, 627], "head": [[1024, 647], [1204, 527]], "mirror": 715 },
+          "car4_A": { "anchor": [620, 638], "head": [[1113, 640], [1307, 527]], "mirror": 725 },
+          "car1_B": { "anchor": [564, 613], "head": [[120, 445], [250, 395]], "headGlow": false, "tail": [[1033, 667], [1287, 553]], "mirror": 700 },
+          "car2_B": { "anchor": [536, 574], "head": [[190, 420], [300, 380]], "headGlow": false, "tail": [[940, 667], [1293, 540]], "mirror": 660 },
+          "car3_B": { "anchor": [633, 584], "head": [[280, 420], [380, 390]], "headGlow": false, "tail": [[981, 627], [1261, 520]], "mirror": 670 },
+          "car4_B": { "anchor": [580, 588], "head": [[150, 390], [280, 350]], "headGlow": false, "tail": [[1064, 640], [1331, 547]], "mirror": 675 },
+          "truck_A": { "anchor": [790, 690], "head": [[1215, 793], [1420, 700]], "mirror": 800 }
+        }
+      }
+    },
+
+    "printhouse": {
+      "background": "G_printhouse_albedo",
+      "cameraSize": 2.6,
+      "cameraOffsetY": 30,
+      "globalLight": { "intensity": 0.2, "color": "#8a9ad0" },
+      "player": {
+        "spawn": [1200, 672], "facing": "up", "scale": 0.2, "speed": 95, "cyclePx": 110,
+        "feet": [44, 16], "reflection": false, "footsteps": "SFX_footsteps_wet", "footstepVolume": 0.35,
+        "flashlight": { "radius": 640, "angle": 60, "intensity": 2.2, "aura": 0.9, "color": "#e4ebff" }
+      },
+      "bounds": [[1040, 720], [1080, 600], [1150, 565], [1300, 540], [1320, 450], [1400, 360], [1440, 322], [1500, 245],
+                 [1600, 236], [1760, 240], [1840, 256], [1880, 322], [1740, 332], [1650, 390], [1592, 455], [1565, 600],
+                 [1478, 690], [1300, 712]],
+      "walls": [],
+      "occluders": [
+        { "sprite": "occ_print_drawers", "footprint": [90, 18] }
+      ],
+      "triggers": [ { "id": "press", "rect": [1130, 460, 480, 150] } ],
+      "interactables": [ { "id": "door_palinode", "pos": [1700, 262], "radius": 85, "promptOffset": [0, -225] } ],
+      "lights": [
+        { "id": "moon1", "pos": [560, 520], "radius": 420, "intensity": 0.75, "color": "#8fa6e0" },
+        { "id": "moon2", "pos": [390, 250], "radius": 360, "intensity": 0.6, "color": "#8fa6e0" },
+        { "id": "moon3", "pos": [1030, 240], "radius": 360, "intensity": 0.6, "color": "#8fa6e0" },
+        { "id": "moon4", "pos": [1080, 60], "radius": 300, "intensity": 0.5, "color": "#8fa6e0" },
+        { "id": "moon5", "pos": [1540, 250], "radius": 320, "intensity": 0.4, "color": "#8fa6e0" },
+        { "id": "lantern", "pos": [478, 345], "radius": 170, "intensity": 0.8, "color": "#ffb466", "flicker": 0.25, "glow": { "size": [50, 50], "color": "#ffc07866" } },
+        { "id": "wallLamp", "pos": [1905, 142], "radius": 190, "intensity": 0.6, "color": "#ffb466", "flicker": 0.2, "glow": { "size": [44, 44], "color": "#ffc07866" } },
+        { "id": "doorLight", "pos": [1700, 175], "radius": 360, "intensity": 0.0, "color": "#e4ecff", "falloff": 0.5 }
+      ],
+      "props": [
+        // One solid machine: the strike is played by the whole body (see actorPress).
+        { "id": "press", "sprite": "G_press_body", "pos": [1445, 492], "scale": 0.18, "footprint": [0, -16, 150, 34] },
+        // The door stands on the back wall line (y 208), un-sheared to face the camera like the wall, centred in the painted bay between the two posts (x ~1595..1805) so it reads as built into the wall.
+        // Child "px" = pixel of the door sprite: plaque centre (407, 258), light slit of the ajar door.
+        { "id": "door", "sprite": "G_door_front_closed", "pos": [1700, 208], "scale": 0.175,
+          "children": [
+            { "id": "doorText", "type": "text", "px": [407, 262], "scale2": [1.0, 1.2], "text": "PALINODE", "font": "title", "fontPx": 66,
+              "color": "#150f0cff", "style": "carve", "reveal": 0, "width": 480, "height": 140, "spacing": -2 },
+            { "id": "doorGap", "type": "glow", "px": [390, 665], "size": [34, 600], "color": "#f4f6ffdd", "hidden": true }
+          ] },
+        { "id": "doorGlow", "type": "glow", "pos": [1700, 150], "size": [260, 220], "color": "#dfe8ff00", "order": 4000 }
+      ],
+      "fx": []
+    }
+  }
+}

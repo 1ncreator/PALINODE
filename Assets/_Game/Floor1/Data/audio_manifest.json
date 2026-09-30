@@ -1,0 +1,57 @@
+{
+  // Floor I sound events → files. The build copies every audio file from "sourceDir" into Assets/_Game/Floor1/Audio
+  // and registers it by file name (without extension), so a file that is still missing is picked up automatically
+  // on the next Tools → PALINODE → Build Everything once it is placed in the source folder with the name below.
+  //   file        clip name (Floor I delivery or a prologue clip)
+  //   expected    true = the file is not delivered yet; "fallback" plays instead and ONE warning is logged per file
+  //   fallback    { "clip": name, "pitch": p } | { "synth": "rumble|whir|whoosh|jam|clank|rev|thud" } | { "silence": true }
+  //   volume      linear 0..1;  pitch / pitchJitter  playback pitch and its random spread
+  "sourceDir": "E:/UnityHub/Projects/RogueDungeon/PALINODE/Floor1/Audio",
+  "events": {
+    "ink_shot":          { "file": "F1_sfx_ink_shot", "volume": 0.45, "pitchJitter": 0.07 },
+    "ink_splat":         { "file": "F1_sfx_ink_splat", "volume": 0.35, "pitchJitter": 0.1 },
+    "ink_hit":           { "file": "F1_sfx_ink_hit", "volume": 0.5, "pitchJitter": 0.1 },
+    "player_hurt":       { "file": "F1_sfx_player_hurt", "volume": 0.8 },
+    "page_turn":         { "file": "F1_sfx_page_turn", "volume": 0.7 },
+    "door_open":         { "file": "F1_sfx_door_open", "volume": 0.6 },
+    "door_close":        { "file": "F1_sfx_door_close", "volume": 0.6 },
+    "pickup_item":       { "file": "F1_sfx_pickup_item", "volume": 0.8 },
+    "pickup_ink":        { "file": "F1_sfx_pickup_ink", "volume": 0.6 },
+    "pickup_page":       { "file": "F1_sfx_pickup_page", "volume": 0.7 },
+    "secret_open":       { "file": "F1_sfx_secret_open", "volume": 0.8 },
+    "redpencil":         { "file": "F1_sfx_redpencil", "volume": 0.85 },
+    "revision":          { "file": "F1_sfx_revision", "volume": 0.9 },
+    "letters_clatter":   { "file": "F1_sfx_letters_clatter", "volume": 0.35, "pitchJitter": 0.08 },
+    "letter_fall":       { "file": "F1_sfx_letter_fall", "volume": 0.5, "pitchJitter": 0.12 },
+    "bug_scuttle":       { "file": "F1_sfx_bug_scuttle", "volume": 0.3, "pitchJitter": 0.1 },
+    "blot_jump":         { "file": "F1_sfx_blot_jump", "volume": 0.5, "pitchJitter": 0.08 },
+    "blot_land":         { "file": "F1_sfx_blot_land", "volume": 0.55, "pitchJitter": 0.08 },
+    "compositor_windup": { "file": "F1_sfx_compositor_windup", "volume": 0.55 },
+    "enemy_struck":      { "file": "SFX_pen_strike", "volume": 0.55, "pitchJitter": 0.1 },
+    "press_clack":       { "file": "SFX_press_clack", "volume": 0.5 },
+    "stack_hit":         { "file": "SFX_paper_rustle", "volume": 0.35, "pitchJitter": 0.15 },
+    "book_close":        { "file": "SFX_book_close", "volume": 0.7 },
+    "ghost_car":         { "file": "SFX_truck_rumble", "volume": 0.3 },
+    "headlights_screech":{ "file": "SFX_brakes_ghost", "volume": 0.5 },
+
+    "line_shot":         { "file": "F1_sfx_line_shot", "expected": true, "volume": 0.5, "fallback": { "clip": "F1_sfx_ink_shot", "pitch": 0.72 } },
+    "headlights_rev":    { "file": "F1_sfx_headlights_rev", "expected": true, "volume": 0.6, "fallback": { "synth": "rev" } },
+    "boss_roller":       { "file": "F1_sfx_boss_roller", "expected": true, "volume": 0.7, "fallback": { "synth": "rumble" } },
+    "boss_flywheel":     { "file": "F1_sfx_boss_flywheel", "expected": true, "volume": 0.25, "fallback": { "synth": "whir" } },
+    "boss_platen":       { "file": "F1_sfx_boss_platen", "expected": true, "volume": 0.7, "fallback": { "clip": "SFX_press_clack", "pitch": 0.8 } },
+    "boss_sheets":       { "file": "F1_sfx_boss_sheets", "expected": true, "volume": 0.5, "fallback": { "clip": "SFX_paper_rustle", "pitch": 1.2 } },
+    "boss_headline":     { "file": "F1_sfx_boss_headline", "expected": true, "volume": 0.8, "fallback": { "synth": "whoosh" } },
+    "boss_print_copy":   { "file": "F1_sfx_boss_print_copy", "expected": true, "volume": 0.6, "fallback": { "clip": "SFX_press_clack", "pitch": 0.65 } },
+    "boss_jam":          { "file": "F1_sfx_boss_jam", "expected": true, "volume": 0.9, "fallback": { "synth": "jam" } }
+  },
+  "music": {
+    "floor":   { "file": "MUS_floor1",  "expected": true, "volume": 0.35, "fallback": { "silence": true } },
+    "boss":    { "file": "MUS_boss1",   "expected": true, "volume": 0.45, "fallback": { "silence": true } },
+    "lullaby": { "file": "MUS_lullaby", "expected": true, "volume": 0.4,  "fallback": { "silence": true } }
+  },
+  "ambience": {
+    // One of the two print-house ambiences is chosen at random for each floor.
+    "printhouse": { "files": ["F1_amb_printhouse_1", "F1_amb_printhouse_2"], "volume": 0.32 },
+    "rain":       { "files": ["SFX_rain_window"], "volume": 0.12 }
+  }
+}
